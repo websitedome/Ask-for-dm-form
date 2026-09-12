@@ -1,327 +1,1351 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Admin Application</title>
+
 <style>
-  * { box-sizing: border-box; }
-  :root {
-    --bg: #090a10;
-    --card: rgba(18, 19, 29, .88);
-    --card2: rgba(255,255,255,.045);
-    --text: #f5f5fa;
-    --muted: #a8a8b8;
-    --line: rgba(255,255,255,.10);
-    --accent: #9b7cff;
-    --accent2: #6f52d9;
-    --danger: #ff6678;
-  }
-  body {
-    margin: 0; min-height: 100vh; color: var(--text);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+
     background:
-      radial-gradient(circle at 50% -10%, rgba(155,124,255,.24), transparent 38%),
-      radial-gradient(circle at 0% 100%, rgba(91,72,170,.12), transparent 35%),
-      var(--bg);
-    padding: 42px 18px;
-  }
-  .wrap { width: min(820px, 100%); margin: auto; }
-  .hero { text-align:center; margin-bottom: 24px; }
-  .logo {
-    width: 92px; height: 92px; object-fit: cover; border-radius: 24px;
-    display:block; margin: 0 auto 16px;
-    box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 35px rgba(155,124,255,.22);
-    border: 1px solid rgba(255,255,255,.14);
-  }
-  h1 { margin:0; font-size: clamp(28px, 5vw, 42px); letter-spacing:-1.5px; }
-  .subtitle { color:var(--muted); margin:9px auto 0; max-width:600px; line-height:1.55; }
-  .card {
-    background:var(--card); border:1px solid var(--line); border-radius:24px;
-    padding: clamp(20px, 4vw, 34px);
-    box-shadow: 0 24px 80px rgba(0,0,0,.38);
-    backdrop-filter: blur(18px);
-  }
-  .section { margin-bottom: 27px; }
-  .section h2 { font-size: 15px; text-transform:uppercase; letter-spacing:1.2px; margin:0 0 14px; color:#d8d0ff; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media(max-width:650px) { .grid { grid-template-columns:1fr; } }
-  label { display:block; color:#dddde7; font-size:13px; font-weight:650; margin:0 0 7px; }
-  input, textarea, select {
-    width:100%; color:var(--text); background:var(--card2);
-    border:1px solid var(--line); border-radius:13px; padding:12px 13px;
-    outline:none; font:inherit; transition:.2s ease;
-  }
-  textarea { min-height:120px; resize:vertical; }
-  input:focus, textarea:focus, select:focus {
-    border-color:rgba(155,124,255,.75);
-    box-shadow:0 0 0 4px rgba(155,124,255,.10);
-  }
-  select { appearance:auto; }
-  option { background:#171722; }
-  .field { margin-bottom:14px; }
-  .hint { color:#888899; font-size:12px; margin-top:6px; }
-  .filebox {
-    border:1px dashed rgba(155,124,255,.42); border-radius:15px;
-    padding:16px; background:rgba(155,124,255,.045);
-  }
-  input[type=file] { padding:9px; }
-  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
-  button {
-    border:0; border-radius:13px; padding:13px 18px; font:700 14px inherit;
-    cursor:pointer; transition:.18s ease;
-  }
-  .submit { flex:1; color:white; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 10px 30px rgba(111,82,217,.28); }
-  .submit:hover { transform:translateY(-1px); filter:brightness(1.08); }
-  .clear { color:#ddd; background:rgba(255,255,255,.07); border:1px solid var(--line); }
-  .status { margin-top:16px; padding:13px 15px; border-radius:13px; display:none; line-height:1.45; }
-  .success { display:block; background:rgba(65,190,125,.10); border:1px solid rgba(65,190,125,.25); color:#baf1d1; }
-  .error { display:block; background:rgba(255,102,120,.10); border:1px solid rgba(255,102,120,.25); color:#ffc0c8; }
-  .footer { text-align:center; color:#686879; font-size:11px; margin-top:15px; }
-  .required { color:#b99fff; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="hero">
-    <img class="logo" src="data:image/png;base64,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" alt="Server logo">
-    <h1>Admin Application</h1>
-    <p class="subtitle">Apply for an administration position. Please answer every question honestly and provide enough detail for the staff team to review your application.</p>
-  </div>
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(88,101,242,.35),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(139,92,246,.28),
+            transparent 35%
+        ),
+        #070910;
 
-  <div class="card">
-    <form id="adminForm">
-      <div class="section">
-        <h2>Applicant</h2>
-        <div class="grid">
-          <div class="field">
-            <label>Discord username <span class="required">*</span></label>
-            <input id="discord" required placeholder="example / username">
-          </div>
-          <div class="field">
-            <label>Server nickname</label>
-            <input id="nickname" placeholder="Your current server name">
-          </div>
-          <div class="field">
-            <label>Discord user ID</label>
-            <input id="userid" placeholder="Optional">
-          </div>
-          <div class="field">
-            <label>Timezone</label>
-            <input id="timezone" placeholder="e.g. UTC+6">
-          </div>
-        </div>
-      </div>
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-      <div class="section">
-        <h2>Experience</h2>
-        <div class="grid">
-          <div class="field">
-            <label>Previous moderation experience <span class="required">*</span></label>
-            <select id="experience" required>
-              <option value="">Select one</option>
-              <option>No previous experience</option>
-              <option>Some experience</option>
-              <option>1+ year</option>
-              <option>2+ years</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Preferred staff area <span class="required">*</span></label>
-            <select id="area" required>
-              <option value="">Select one</option>
-              <option>Moderator</option>
-              <option>Chat Moderator</option>
-              <option>Support</option>
-              <option>Trial Staff</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label>Where have you moderated before?</label>
-          <textarea id="past" placeholder="Tell us about previous servers, communities, or projects."></textarea>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Application</h2>
-        <div class="field">
-          <label>Why should we choose you? <span class="required">*</span></label>
-          <textarea id="why" required placeholder="Explain your strengths and what you could contribute..."></textarea>
-        </div>
-        <div class="field">
-          <label>Why do you want to become staff? <span class="required">*</span></label>
-          <textarea id="reason" required placeholder="Tell us your motivation..."></textarea>
-        </div>
-        <div class="field">
-          <label>How would you handle a member breaking a rule?</label>
-          <textarea id="scenario" placeholder="Describe the steps you would take."></textarea>
-        </div>
-        <div class="grid">
-          <div class="field">
-            <label>Approx. availability</label>
-            <input id="availability" placeholder="e.g. 2–4 hours/day">
-          </div>
-          <div class="field">
-            <label>Anything else?</label>
-            <input id="extra" placeholder="Optional">
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Attachment</h2>
-        <div class="filebox">
-          <label>Optional file / screenshot</label>
-          <input id="file" type="file" accept="image/*,.pdf,.txt,.zip">
-          <div class="hint">The selected file is sent to the webhook with the application. Keep files reasonably small.</div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="submit" id="submitBtn" type="submit">Submit application</button>
-        <button class="clear" type="button" id="clearBtn">Clear</button>
-      </div>
-      <div id="status" class="status"></div>
-    </form>
-  </div>
-  <div class="footer">Admin Applications • Please complete all required fields before submitting.</div>
-</div>
-
-<script>
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1548002013520994384/ErX-pSk9exjyySiEq4qw2Z43jzONrx4_GBnUFGBZSzIoSns9Uc_GLSNDOyI0ZIgIV_1h";
-const STORAGE_KEY = "admin_application_draft_v1";
-
-const ids = ["discord","nickname","userid","timezone","experience","area","past","why","reason","scenario","availability","extra"];
-const form = document.getElementById("adminForm");
-const statusBox = document.getElementById("status");
-const submitBtn = document.getElementById("submitBtn");
-
-function saveDraft() {
-  const data = {};
-  ids.forEach(id => data[id] = document.getElementById(id).value);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    padding: 25px;
 }
 
-function loadDraft() {
-  try {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if (!data) return;
-    ids.forEach(id => {
-      if (data[id] !== undefined) document.getElementById(id).value = data[id];
-    });
-  } catch {}
+.container {
+    width: 100%;
+    max-width: 820px;
 }
 
-function showStatus(message, type) {
-  statusBox.className = "status " + type;
-  statusBox.textContent = message;
+.card {
+
+    width: 100%;
+
+    background: rgba(15,18,30,.92);
+
+    border: 1px solid rgba(255,255,255,.09);
+
+    border-radius: 28px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.55);
+
+    backdrop-filter: blur(20px);
+
+    animation: cardIn .7s ease;
 }
 
-ids.forEach(id => document.getElementById(id).addEventListener("input", saveDraft));
-loadDraft();
+@keyframes cardIn {
 
-document.getElementById("clearBtn").addEventListener("click", () => {
-  form.reset();
-  localStorage.removeItem(STORAGE_KEY);
-  statusBox.className = "status";
-  statusBox.textContent = "";
-});
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  if (!WEBHOOK_URL || WEBHOOK_URL.includes("PASTE_YOUR")) {
-    showStatus("The form is not configured yet.", "error");
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending...";
-
-  const embed = {
-    title: "🛡️ New Admin Application",
-    description: "A new administration application was submitted.",
-    color: 10126332,
-    fields: [
-      {name:"Discord", value: document.getElementById("discord").value || "Not provided", inline:true},
-      {name:"Nickname", value: document.getElementById("nickname").value || "Not provided", inline:true},
-      {name:"User ID", value: document.getElementById("userid").value || "Not provided", inline:true},
-      {name:"Timezone", value: document.getElementById("timezone").value || "Not provided", inline:true},
-      {name:"Experience", value: document.getElementById("experience").value || "Not provided", inline:true},
-      {name:"Staff Area", value: document.getElementById("area").value || "Not provided", inline:true},
-      {name:"Availability", value: document.getElementById("availability").value || "Not provided", inline:true},
-      {name:"Previous Experience", value: document.getElementById("past").value || "Not provided", inline:false},
-      {name:"Why choose you?", value: document.getElementById("why").value || "Not provided", inline:false},
-      {name:"Why staff?", value: document.getElementById("reason").value || "Not provided", inline:false},
-      {name:"Rule-breaking scenario", value: document.getElementById("scenario").value || "Not provided", inline:false},
-      {name:"Additional information", value: document.getElementById("extra").value || "Not provided", inline:false}
-    ],
-    footer: {text:"Admin Application"},
-    timestamp: new Date().toISOString()
-  };
-
-  /*
-    GitHub Pages cannot read a cross-origin Discord response with fetch().
-    A normal HTML form POST is allowed by the browser, so submit the
-    multipart request directly to Discord instead. This also supports files.
-  */
-  const iframe = document.createElement("iframe");
-  iframe.name = "discord_submit_frame_" + Date.now();
-  iframe.style.display = "none";
-  document.body.appendChild(iframe);
-
-  const sender = document.createElement("form");
-  sender.method = "POST";
-  sender.action = WEBHOOK_URL;
-  sender.target = iframe.name;
-  sender.enctype = "multipart/form-data";
-  sender.style.display = "none";
-
-  const payload = document.createElement("input");
-  payload.type = "hidden";
-  payload.name = "payload_json";
-  payload.value = JSON.stringify({
-    embeds: [embed],
-    allowed_mentions: {parse: []}
-  });
-  sender.appendChild(payload);
-
-  const fileInput = document.getElementById("file");
-  if (fileInput.files.length > 0) {
-    const clonedFileInput = fileInput.cloneNode(true);
-    clonedFileInput.name = "files[0]";
-    sender.appendChild(clonedFileInput);
-
-    // A cloned file input does not retain its selected file in browsers.
-    // Move the original input instead.
-    sender.removeChild(clonedFileInput);
-    fileInput.name = "files[0]";
-    sender.appendChild(fileInput);
-  }
-
-  document.body.appendChild(sender);
-  sender.submit();
-
-  // We cannot inspect Discord's cross-origin response from GitHub Pages.
-  // Show completion after the browser has accepted the POST.
-  setTimeout(() => {
-    showStatus("✓ Application submitted successfully.", "success");
-    localStorage.removeItem(STORAGE_KEY);
-    form.reset();
-
-    if (fileInput.parentElement === sender) {
-      document.querySelector(".filebox").appendChild(fileInput);
-      fileInput.name = "";
+    from {
+        opacity: 0;
+        transform:
+            translateY(30px)
+            scale(.97);
     }
 
-    sender.remove();
-    iframe.remove();
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit application";
-  }, 900);
-});
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.logo {
+
+    width: 90px;
+    height: 90px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 27px;
+
+    font-size: 45px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5865f2,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 18px 45px
+        rgba(88,101,242,.35);
+
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
+}
+
+h1 {
+
+    margin-top: 20px;
+
+    font-size: 34px;
+
+    letter-spacing: -.5px;
+}
+
+.subtitle {
+
+    margin-top: 10px;
+
+    color: #9da5bb;
+
+    line-height: 1.6;
+
+    font-size: 15px;
+}
+
+.section {
+
+    margin-top: 30px;
+}
+
+.section-title {
+
+    color: #8795ff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 17px;
+}
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 16px;
+}
+
+.field {
+
+    margin-bottom: 18px;
+}
+
+label {
+
+    display: block;
+
+    color: #e3e6f0;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    border: 1px solid #2c3247;
+
+    border-radius: 14px;
+
+    background: #0b0e17;
+
+    color: white;
+
+    outline: none;
+
+    padding: 14px 15px;
+
+    font-size: 15px;
+
+    transition:
+        border .2s,
+        box-shadow .2s,
+        transform .2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+
+    color: #626a80;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: #6878ff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(104,120,255,.12);
+
+    transform: translateY(-1px);
+}
+
+textarea {
+
+    min-height: 125px;
+
+    resize: vertical;
+}
+
+select {
+
+    cursor: pointer;
+}
+
+.file-box {
+
+    display: block;
+
+    border: 2px dashed #343b52;
+
+    border-radius: 17px;
+
+    padding: 27px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    color: #9ba3b8;
+
+    transition: .2s;
+}
+
+.file-box:hover {
+
+    border-color: #6878ff;
+
+    background:
+        rgba(104,120,255,.06);
+
+}
+
+.file-box strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 16px;
+
+    margin-bottom: 7px;
+}
+
+.file-box input {
+
+    display: none;
+}
+
+.file-name {
+
+    margin-top: 12px;
+
+    color: #8795ff;
+
+    font-size: 13px;
+}
+
+.submit {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 15px;
+
+    padding: 17px;
+
+    margin-top: 15px;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5865f2,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 14px 35px
+        rgba(88,101,242,.28);
+
+    transition: .2s;
+}
+
+.submit:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 18px 42px
+        rgba(88,101,242,.4);
+}
+
+.submit:active {
+
+    transform: scale(.99);
+}
+
+.submit:disabled {
+
+    opacity: .6;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+.success {
+
+    display: none;
+
+    text-align: center;
+
+    padding: 45px 10px;
+}
+
+.success-icon {
+
+    width: 90px;
+    height: 90px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #20b66b,
+            #168b52
+        );
+
+    font-size: 45px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(32,182,107,.25);
+
+    animation:
+        successPop .5s ease;
+}
+
+@keyframes successPop {
+
+    from {
+        transform: scale(.4);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+.success h2 {
+
+    margin-top: 22px;
+
+    font-size: 29px;
+}
+
+.success p {
+
+    color: #9da5bb;
+
+    line-height: 1.6;
+
+    margin-top: 10px;
+}
+
+.reset {
+
+    margin-top: 22px;
+
+    border: 1px solid #343b52;
+
+    background: transparent;
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.reset:hover {
+
+    background: #181c2a;
+
+}
+
+.error {
+
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(239,68,68,.1);
+
+    border: 1px solid
+        rgba(239,68,68,.25);
+
+    color: #ff8b94;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.footer {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #555d72;
+
+    font-size: 12px;
+}
+
+@media(max-width:650px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 25px 18px;
+        border-radius: 22px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .logo {
+        width: 78px;
+        height: 78px;
+        font-size: 38px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<!-- APPLICATION -->
+
+<div id="application">
+
+<div class="header">
+
+<div class="logo">
+🛡️
+</div>
+
+<h1>
+Admin Application
+</h1>
+
+<p class="subtitle">
+
+Apply to become part of our administration team.<br>
+
+Please answer all questions honestly and carefully.
+
+</p>
+
+</div>
+
+
+<form id="applicationForm">
+
+
+<!-- BASIC INFORMATION -->
+
+<div class="section">
+
+<div class="section-title">
+Basic Information
+</div>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Discord Username
+</label>
+
+<input
+    id="username"
+    type="text"
+    placeholder="example"
+    required
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Discord ID
+</label>
+
+<input
+    id="discordId"
+    type="text"
+    placeholder="123456789012345678"
+    required
+>
+
+</div>
+
+
+</div>
+
+
+<div class="field">
+
+<label>
+Age
+</label>
+
+<input
+    id="age"
+    type="number"
+    min="13"
+    max="99"
+    placeholder="Your age"
+    required
+>
+
+</div>
+
+</div>
+
+
+<!-- POSITION -->
+
+<div class="section">
+
+<div class="section-title">
+Position
+</div>
+
+
+<div class="field">
+
+<label>
+Which position are you applying for?
+</label>
+
+<select id="position" required>
+
+<option value="">
+Select a position
+</option>
+
+<option>
+Administrator
+</option>
+
+<option>
+Moderator
+</option>
+
+<option>
+Helper
+</option>
+
+<option>
+Support Staff
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div class="section">
+
+<div class="section-title">
+Application Questions
+</div>
+
+
+<div class="field">
+
+<label>
+Why do you want to become staff?
+</label>
+
+<textarea
+    id="reason"
+    placeholder="Explain why you want to join the staff team..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Do you have previous staff experience?
+</label>
+
+<textarea
+    id="experience"
+    placeholder="Tell us about your previous moderation or administration experience..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+How would you handle a member breaking the rules?
+</label>
+
+<textarea
+    id="rules"
+    placeholder="Explain what you would do..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+How would you handle an argument between members?
+</label>
+
+<textarea
+    id="argument"
+    placeholder="Explain how you would resolve the situation..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+What makes you suitable for staff?
+</label>
+
+<textarea
+    id="suitable"
+    placeholder="Tell us about your strengths..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+What would you improve about the server?
+</label>
+
+<textarea
+    id="improve"
+    placeholder="Tell us what you think could be improved..."
+    required
+></textarea>
+
+</div>
+
+</div>
+
+
+<!-- AVAILABILITY -->
+
+<div class="section">
+
+<div class="section-title">
+Availability
+</div>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Timezone
+</label>
+
+<input
+    id="timezone"
+    placeholder="GMT+6"
+    required
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Hours available per week
+</label>
+
+<input
+    id="hours"
+    type="number"
+    min="0"
+    placeholder="10"
+    required
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- FILE -->
+
+<div class="section">
+
+<div class="section-title">
+Optional Attachment
+</div>
+
+
+<label
+    class="file-box"
+    for="attachment"
+>
+
+<strong>
+📎 Choose a file
+</strong>
+
+<span>
+Upload an optional image or document
+</span>
+
+
+<input
+    id="attachment"
+    type="file"
+>
+
+
+<div
+    class="file-name"
+    id="fileName"
+></div>
+
+</label>
+
+</div>
+
+
+<div
+    class="error"
+    id="error"
+>
+Something went wrong. Please try again.
+</div>
+
+
+<button
+    class="submit"
+    id="submitButton"
+    type="submit"
+>
+
+Submit Application
+
+</button>
+
+
+</form>
+
+
+<div class="footer">
+
+Staff Application System
+
+</div>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+    class="success"
+    id="success"
+>
+
+<div class="success-icon">
+✓
+</div>
+
+<h2>
+Application Sent!
+</h2>
+
+<p>
+
+Your application has been successfully submitted.<br>
+
+The staff team can now review it.
+
+</p>
+
+<button
+    class="reset"
+    onclick="location.reload()"
+>
+
+Submit Another Application
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/*
+====================================================
+DISCORD WEBHOOK
+====================================================
+*/
+
+const WEBHOOK_URL =
+"https://discord.com/api/webhooks/1548002013520994384/ErX-pSk9exjyySiEq4qw2Z43jzONrx4_GBnUFGBZSzIoSns9Uc_GLSNDOyI0ZIgIV_1h";
+
+
+/*
+====================================================
+ELEMENTS
+====================================================
+*/
+
+const form =
+document.getElementById("applicationForm");
+
+const submitButton =
+document.getElementById("submitButton");
+
+const attachment =
+document.getElementById("attachment");
+
+const fileName =
+document.getElementById("fileName");
+
+const errorBox =
+document.getElementById("error");
+
+
+/*
+====================================================
+FILE DISPLAY
+====================================================
+*/
+
+attachment.addEventListener(
+    "change",
+    function() {
+
+        if(this.files.length > 0) {
+
+            fileName.textContent =
+                "Selected: " +
+                this.files[0].name;
+
+        } else {
+
+            fileName.textContent = "";
+
+        }
+
+    }
+);
+
+
+/*
+====================================================
+SUBMIT
+====================================================
+*/
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        errorBox.style.display = "none";
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+            "Sending Application...";
+
+
+        /*
+        --------------------------------------------
+        GET VALUES
+        --------------------------------------------
+        */
+
+        const username =
+            document.getElementById("username")
+            .value.trim();
+
+        const discordId =
+            document.getElementById("discordId")
+            .value.trim();
+
+        const age =
+            document.getElementById("age")
+            .value;
+
+        const position =
+            document.getElementById("position")
+            .value;
+
+        const reason =
+            document.getElementById("reason")
+            .value.trim();
+
+        const experience =
+            document.getElementById("experience")
+            .value.trim();
+
+        const rules =
+            document.getElementById("rules")
+            .value.trim();
+
+        const argument =
+            document.getElementById("argument")
+            .value.trim();
+
+        const suitable =
+            document.getElementById("suitable")
+            .value.trim();
+
+        const improve =
+            document.getElementById("improve")
+            .value.trim();
+
+        const timezone =
+            document.getElementById("timezone")
+            .value.trim();
+
+        const hours =
+            document.getElementById("hours")
+            .value;
+
+
+        let selectedFile =
+            "No attachment";
+
+
+        if(attachment.files.length > 0) {
+
+            selectedFile =
+                attachment.files[0].name;
+
+        }
+
+
+        /*
+        --------------------------------------------
+        DISCORD EMBED
+        --------------------------------------------
+        */
+
+        const embed = {
+
+            title:
+                "🛡️ NEW ADMIN APPLICATION",
+
+            description:
+                "A new administration application has been submitted.",
+
+            color:
+                5793266,
+
+            fields: [
+
+                {
+                    name:
+                        "👤 Discord Username",
+
+                    value:
+                        username || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "🆔 Discord ID",
+
+                    value:
+                        discordId || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "🎂 Age",
+
+                    value:
+                        age || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "🛡️ Position",
+
+                    value:
+                        position || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "🌎 Timezone",
+
+                    value:
+                        timezone || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "⏰ Hours / Week",
+
+                    value:
+                        hours || "Not provided",
+
+                    inline:
+                        true
+                },
+
+
+                {
+                    name:
+                        "💭 Why do you want to become staff?",
+
+                    value:
+                        reason.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "🛠️ Previous Experience",
+
+                    value:
+                        experience.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "⚖️ Rule-breaking Scenario",
+
+                    value:
+                        rules.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "🤝 Member Argument Scenario",
+
+                    value:
+                        argument.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "⭐ Why are you suitable?",
+
+                    value:
+                        suitable.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "🔧 What would you improve?",
+
+                    value:
+                        improve.substring(0,1024)
+                },
+
+
+                {
+                    name:
+                        "📎 Attachment",
+
+                    value:
+                        selectedFile
+                }
+
+            ],
+
+
+            footer: {
+
+                text:
+                    "Admin Application System"
+
+            },
+
+
+            timestamp:
+                new Date().toISOString()
+
+        };
+
+
+        /*
+        --------------------------------------------
+        SEND TO DISCORD
+        --------------------------------------------
+        */
+
+        try {
+
+            const response =
+                await fetch(
+                    WEBHOOK_URL,
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                username:
+                                    "Admin Applications",
+
+                                embeds:
+                                    [embed]
+
+                            })
+
+                    }
+                );
+
+
+            /*
+            ----------------------------------------
+            CHECK RESPONSE
+            ----------------------------------------
+            */
+
+            if(!response.ok) {
+
+                throw new Error(
+                    "Discord webhook failed"
+                );
+
+            }
+
+
+            /*
+            ----------------------------------------
+            SUCCESS SCREEN
+            ----------------------------------------
+            */
+
+            document.getElementById(
+                "application"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "success"
+            ).style.display = "block";
+
+
+        }
+
+        catch(error) {
+
+            console.error(error);
+
+
+            errorBox.textContent =
+                "Unable to send the application. Check the webhook and try again.";
+
+
+            errorBox.style.display =
+                "block";
+
+
+            submitButton.disabled =
+                false;
+
+
+            submitButton.textContent =
+                "Submit Application";
+
+        }
+
+    }
+);
+
 </script>
+
 </body>
 </html>
+```
