@@ -4,12 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Staff Applications</title>
+<title>Staff Application</title>
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 *{
     box-sizing:border-box;
@@ -18,16 +16,20 @@
 }
 
 :root{
-    --bg:#06070d;
-    --panel:rgba(15,17,28,.82);
-    --panel2:rgba(22,25,40,.72);
-    --border:rgba(255,255,255,.09);
-    --text:#f7f8ff;
-    --muted:#9299ad;
-    --accent:#5865f2;
-    --accent2:#8b5cf6;
-    --green:#36d399;
-    --red:#ff6675;
+    --bg:#05060a;
+    --surface:#0b0d14;
+    --surface2:#10131d;
+    --surface3:#151925;
+    --border:rgba(255,255,255,.075);
+    --border2:rgba(255,255,255,.12);
+    --text:#f5f7ff;
+    --muted:#7e8599;
+    --muted2:#a5abbb;
+    --purple:#7667ff;
+    --purple2:#9a70ff;
+    --blue:#5b8cff;
+    --green:#35d49a;
+    --red:#ff6575;
 }
 
 html{
@@ -35,683 +37,639 @@ html{
 }
 
 body{
-
     min-height:100vh;
-
-    font-family:
-        Inter,
-        Arial,
-        sans-serif;
-
     color:var(--text);
-
-    background:
-        radial-gradient(
-            circle at 10% 0%,
-            rgba(88,101,242,.23),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 90% 20%,
-            rgba(139,92,246,.18),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(50,100,255,.10),
-            transparent 35%
-        ),
-        var(--bg);
-
+    background:#05060a;
+    font-family:"DM Sans",Arial,sans-serif;
     overflow-x:hidden;
 }
 
-
-/* BACKGROUND */
+/* ================= BACKGROUND ================= */
 
 .background{
     position:fixed;
     inset:0;
-    pointer-events:none;
+    z-index:-5;
     overflow:hidden;
-    z-index:-1;
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            rgba(91,92,255,.16),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 100% 50%,
+            rgba(150,80,255,.11),
+            transparent 28%
+        ),
+        #05060a;
 }
 
-.orb{
+.grid-bg{
     position:absolute;
+    inset:0;
+    opacity:.16;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+    background-size:50px 50px;
+    mask-image:linear-gradient(
+        to bottom,
+        black,
+        transparent 90%
+    );
+}
+
+.glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    pointer-events:none;
+}
+
+.glow.one{
+    width:400px;
+    height:400px;
+    background:#5f55ff;
+    left:-200px;
+    top:-180px;
+    opacity:.13;
+    animation:floatOne 14s ease-in-out infinite alternate;
+}
+
+.glow.two{
     width:350px;
     height:350px;
-    border-radius:50%;
-    filter:blur(90px);
-    opacity:.15;
-    animation:orbMove 12s infinite alternate ease-in-out;
+    background:#9a4dff;
+    right:-180px;
+    bottom:-150px;
+    opacity:.12;
+    animation:floatTwo 17s ease-in-out infinite alternate;
 }
 
-.orb.one{
-    background:#5865f2;
-    top:-120px;
-    left:-100px;
-}
-
-.orb.two{
-    background:#a855f7;
-    right:-120px;
-    bottom:-100px;
-    animation-delay:2s;
-}
-
-@keyframes orbMove{
-    from{
-        transform:translate(0,0) scale(1);
-    }
+@keyframes floatOne{
     to{
-        transform:translate(60px,40px) scale(1.25);
+        transform:translate(120px,90px) scale(1.3);
     }
 }
 
+@keyframes floatTwo{
+    to{
+        transform:translate(-100px,-80px) scale(1.2);
+    }
+}
 
-/* PAGE */
+/* ================= PAGE ================= */
 
 .page{
-    width:100%;
-    max-width:920px;
+    width:min(1250px,100%);
     margin:auto;
-    padding:35px 18px 60px;
+    padding:28px;
 }
 
-
-/* TOP BAR */
+/* ================= TOPBAR ================= */
 
 .topbar{
-
+    height:64px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-
-    margin-bottom:20px;
-
-    animation:fadeDown .7s ease;
+    margin-bottom:18px;
+    animation:slideDown .6s ease;
 }
 
-.brand{
+.logo-area{
     display:flex;
     align-items:center;
     gap:12px;
 }
 
-.brand-icon{
-
+.logo{
     width:42px;
     height:42px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:13px;
-
     background:
         linear-gradient(
             135deg,
-            var(--accent),
-            var(--accent2)
+            #5d62ff,
+            #9a5dff
         );
-
     box-shadow:
-        0 8px 25px
-        rgba(88,101,242,.3);
+        0 10px 30px
+        rgba(100,90,255,.25);
+    font-size:21px;
 }
 
-.brand span{
-    font-weight:800;
+.logo-text{
+    font-family:"Space Grotesk";
     font-size:15px;
+    font-weight:700;
+    letter-spacing:.2px;
 }
 
-.status-pill{
+.logo-text small{
+    display:block;
+    color:#656c80;
+    font-family:"DM Sans";
+    font-size:10px;
+    font-weight:500;
+    margin-top:2px;
+}
 
+.live{
     display:flex;
     align-items:center;
     gap:8px;
-
     padding:8px 12px;
-
     border:1px solid var(--border);
-
     border-radius:999px;
-
-    background:rgba(255,255,255,.035);
-
-    color:#aeb5c9;
-
-    font-size:12px;
+    background:rgba(255,255,255,.025);
+    color:#9ba2b5;
+    font-size:11px;
 }
 
-.status-dot{
-
-    width:7px;
-    height:7px;
-
+.live-dot{
+    width:6px;
+    height:6px;
     border-radius:50%;
-
     background:var(--green);
-
-    box-shadow:
-        0 0 12px
-        var(--green);
+    box-shadow:0 0 12px var(--green);
 }
 
-
-/* HERO */
+/* ================= HERO ================= */
 
 .hero{
-
     position:relative;
-
     overflow:hidden;
-
+    min-height:280px;
     border:1px solid var(--border);
-
-    border-radius:30px;
-
-    padding:50px 35px;
-
+    border-radius:28px;
+    padding:42px;
     background:
         linear-gradient(
-            145deg,
-            rgba(25,29,48,.94),
-            rgba(10,12,21,.91)
+            135deg,
+            rgba(19,22,36,.94),
+            rgba(8,10,17,.96)
         );
-
     box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.4);
-
-    animation:fadeUp .8s ease;
+        0 30px 100px rgba(0,0,0,.35);
+    animation:fadeUp .7s ease;
 }
 
-.hero::before{
-
+.hero::after{
     content:"";
-
     position:absolute;
-
-    width:300px;
-    height:300px;
-
-    right:-120px;
-    top:-150px;
-
+    width:500px;
+    height:500px;
+    right:-220px;
+    top:-260px;
     border-radius:50%;
-
-    background:
-        rgba(88,101,242,.18);
-
-    filter:blur(20px);
+    border:1px solid rgba(120,110,255,.13);
+    box-shadow:
+        0 0 0 60px rgba(120,110,255,.025),
+        0 0 0 120px rgba(120,110,255,.018);
 }
 
 .hero-content{
     position:relative;
-    z-index:1;
+    z-index:2;
+    max-width:700px;
 }
 
-.hero-badge{
-
+.eyebrow{
     display:inline-flex;
     align-items:center;
-    gap:8px;
-
-    padding:7px 12px;
-
-    border:1px solid
-        rgba(116,129,255,.25);
-
+    gap:7px;
+    padding:7px 11px;
     border-radius:999px;
-
-    background:
-        rgba(88,101,242,.08);
-
-    color:#9da8ff;
-
-    font-size:12px;
+    background:rgba(118,103,255,.09);
+    border:1px solid rgba(118,103,255,.2);
+    color:#a7a0ff;
+    font-size:10px;
     font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
 }
 
 .hero h1{
-
-    margin-top:18px;
-
-    font-size:
-        clamp(34px,6vw,58px);
-
-    line-height:1.02;
-
-    letter-spacing:-2.5px;
+    margin-top:19px;
+    font-family:"Space Grotesk";
+    font-size:clamp(36px,5vw,62px);
+    line-height:.98;
+    letter-spacing:-3px;
 }
 
-.gradient-text{
-
+.hero h1 span{
     background:
         linear-gradient(
             100deg,
             #ffffff,
-            #aab5ff 45%,
-            #b88cff
+            #aaa3ff 50%,
+            #c08fff
         );
-
     -webkit-background-clip:text;
     background-clip:text;
-
     color:transparent;
 }
 
 .hero p{
-
-    max-width:650px;
-
-    margin-top:17px;
-
-    color:var(--muted);
-
-    line-height:1.7;
-
-    font-size:15px;
+    margin-top:19px;
+    color:#858ca0;
+    font-size:14px;
+    line-height:1.75;
+    max-width:600px;
 }
 
-.hero-stats{
-
-    display:flex;
-    gap:10px;
-
-    margin-top:28px;
-
-    flex-wrap:wrap;
-}
-
-.stat{
-
+.hero-bottom{
     display:flex;
     align-items:center;
-    gap:8px;
-
-    padding:10px 13px;
-
-    border-radius:12px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    border:1px solid
-        rgba(255,255,255,.06);
-
-    color:#aeb5c9;
-
-    font-size:12px;
+    gap:25px;
+    margin-top:27px;
 }
 
-
-/* MAIN PANEL */
-
-.panel{
-
-    margin-top:18px;
-
-    padding:30px;
-
-    border:1px solid var(--border);
-
-    border-radius:26px;
-
-    background:
-        var(--panel);
-
-    backdrop-filter:blur(25px);
-
-    box-shadow:
-        0 25px 80px
-        rgba(0,0,0,.3);
-
-    animation:fadeUp .9s ease;
-}
-
-
-/* PROGRESS */
-
-.progress-wrapper{
-
-    padding:4px;
-
-    margin-bottom:30px;
-}
-
-.progress-top{
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    color:#8f96aa;
-
-    font-size:12px;
-
-    margin-bottom:10px;
-}
-
-.progress{
-
-    height:5px;
-
-    background:#1c2030;
-
-    border-radius:99px;
-
-    overflow:hidden;
-}
-
-.progress-bar{
-
-    width:33%;
-
-    height:100%;
-
-    border-radius:99px;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    box-shadow:
-        0 0 15px
-        rgba(88,101,242,.45);
-
-    transition:
-        width .45s cubic-bezier(.4,0,.2,1);
-}
-
-
-/* SECTIONS */
-
-.form-section{
-
-    padding:24px 0;
-
-    border-top:1px solid
-        rgba(255,255,255,.06);
-}
-
-.form-section:first-of-type{
-    border-top:0;
-}
-
-.section-head{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:14px;
-
-    margin-bottom:20px;
-}
-
-.section-number{
-
-    width:35px;
-    height:35px;
-
-    flex-shrink:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:11px;
-
-    background:
-        rgba(88,101,242,.12);
-
-    border:1px solid
-        rgba(88,101,242,.22);
-
-    color:#9da8ff;
-
-    font-size:13px;
-
-    font-weight:800;
-}
-
-.section-head h2{
-
-    font-size:17px;
-
-    margin-bottom:4px;
-}
-
-.section-head p{
-
-    color:#70788d;
-
-    font-size:12px;
-}
-
-
-/* INPUTS */
-
-.grid{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:16px;
-}
-
-.field{
-
-    margin-bottom:16px;
-}
-
-label{
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    margin-bottom:8px;
-
-    color:#dfe3ef;
-
-    font-size:13px;
-
-    font-weight:700;
-}
-
-.optional{
-
-    color:#687087;
-
-    font-weight:500;
-
+.hero-item{
+    color:#777e91;
     font-size:11px;
 }
 
-input,
-textarea,
-select{
+.hero-item strong{
+    display:block;
+    color:#dfe2ec;
+    font-size:12px;
+    margin-bottom:3px;
+}
 
+/* ================= WORKSPACE ================= */
+
+.workspace{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    gap:18px;
+    margin-top:18px;
+    align-items:start;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:sticky;
+    top:20px;
+    border:1px solid var(--border);
+    border-radius:23px;
+    padding:16px;
+    background:rgba(10,12,19,.82);
+    backdrop-filter:blur(25px);
+}
+
+.side-title{
+    padding:10px 10px 14px;
+    color:#555c70;
+    font-size:9px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+
+.step{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:11px;
     width:100%;
-
-    padding:14px 15px;
-
+    border:0;
+    background:transparent;
+    color:#747b8e;
+    text-align:left;
+    padding:12px 10px;
     border-radius:13px;
-
-    border:1px solid
-        #292e41;
-
-    outline:none;
-
-    color:white;
-
-    background:
-        rgba(7,9,16,.75);
-
+    cursor:pointer;
     font-family:inherit;
+    transition:.2s;
+}
 
-    font-size:14px;
+.step:hover{
+    background:rgba(255,255,255,.035);
+    color:#c5cad8;
+}
 
-    transition:
-        border .2s,
-        box-shadow .2s,
-        background .2s,
-        transform .2s;
+.step.active{
+    color:#fff;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(118,103,255,.15),
+            rgba(118,103,255,.04)
+        );
+}
+
+.step.active::before{
+    content:"";
+    position:absolute;
+    left:-16px;
+    top:10px;
+    bottom:10px;
+    width:2px;
+    border-radius:2px;
+    background:#7c70ff;
+    box-shadow:0 0 12px #7c70ff;
+}
+
+.step-icon{
+    width:31px;
+    height:31px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:#151925;
+    font-size:13px;
+}
+
+.step.active .step-icon{
+    background:
+        rgba(118,103,255,.17);
+}
+
+.step-text{
+    font-size:11px;
+    font-weight:600;
+}
+
+.step-text small{
+    display:block;
+    color:#555d71;
+    font-size:9px;
+    margin-top:2px;
+    font-weight:500;
+}
+
+.side-progress{
+    margin:20px 8px 8px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(255,255,255,.018);
+}
+
+.side-progress-top{
+    display:flex;
+    justify-content:space-between;
+    color:#72798d;
+    font-size:9px;
+    margin-bottom:9px;
+}
+
+.side-progress-top strong{
+    color:#a7a0ff;
+}
+
+.side-bar{
+    height:4px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#1b1f2c;
+}
+
+.side-bar-inner{
+    width:0%;
+    height:100%;
+    border-radius:20px;
+    background:
+        linear-gradient(
+            90deg,
+            #5f65ff,
+            #a467ff
+        );
+    transition:.4s;
+}
+
+/* ================= FORM PANEL ================= */
+
+.form-panel{
+    min-width:0;
+    border:1px solid var(--border);
+    border-radius:25px;
+    background:
+        rgba(10,12,19,.88);
+    backdrop-filter:blur(25px);
+    overflow:hidden;
+}
+
+.form-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 27px;
+    border-bottom:1px solid var(--border);
+}
+
+.form-title{
+    font-family:"Space Grotesk";
+    font-size:16px;
+    font-weight:700;
+}
+
+.form-subtitle{
+    margin-top:4px;
+    color:#5f6679;
+    font-size:10px;
+}
+
+.draft-status{
+    color:#626a7e;
+    font-size:10px;
+}
+
+.draft-status.saved{
+    color:var(--green);
+}
+
+/* ================= FORM SECTIONS ================= */
+
+.form-section{
+    padding:29px;
+    border-bottom:1px solid var(--border);
+    scroll-margin-top:20px;
+}
+
+.section-heading{
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+    margin-bottom:23px;
+}
+
+.section-number{
+    width:36px;
+    height:36px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(118,103,255,.16),
+            rgba(118,103,255,.04)
+        );
+    border:1px solid rgba(118,103,255,.2);
+    color:#a69fff;
+    font-family:"Space Grotesk";
+    font-size:11px;
+    font-weight:700;
+}
+
+.section-heading h2{
+    font-family:"Space Grotesk";
+    font-size:16px;
+}
+
+.section-heading p{
+    margin-top:4px;
+    color:#5f6679;
+    font-size:10px;
+}
+
+/* ================= FIELDS ================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.field{
+    margin-bottom:17px;
+}
+
+label{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:7px;
+    color:#cbd0dc;
+    font-size:11px;
+    font-weight:600;
+}
+
+.optional{
+    color:#51586b;
+    font-size:9px;
+    font-weight:500;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:1px solid #242938;
+    border-radius:12px;
+    outline:none;
+    background:#090b11;
+    color:#f5f7ff;
+    padding:13px 14px;
+    font-family:inherit;
+    font-size:12px;
+    transition:.2s;
 }
 
 input:hover,
-textarea:hover,
-select:hover{
-
-    border-color:#3a4058;
+select:hover,
+textarea:hover{
+    border-color:#30364a;
 }
 
 input:focus,
-textarea:focus,
-select:focus{
-
-    border-color:#6675ff;
-
-    background:
-        rgba(9,11,20,.95);
-
+select:focus,
+textarea:focus{
+    border-color:#665eff;
     box-shadow:
-        0 0 0 4px
-        rgba(88,101,242,.11);
-
-    transform:translateY(-1px);
+        0 0 0 3px
+        rgba(102,94,255,.08);
+    background:#0b0d15;
 }
 
 input::placeholder,
 textarea::placeholder{
-
-    color:#555d72;
+    color:#454c5e;
 }
 
 textarea{
-
-    min-height:125px;
-
+    min-height:120px;
     resize:vertical;
-
-    line-height:1.6;
+    line-height:1.65;
 }
-
-.char-count{
-
-    display:block;
-
-    text-align:right;
-
-    margin-top:5px;
-
-    color:#555d72;
-
-    font-size:10px;
-}
-
-
-/* SELECT */
 
 select{
-
-    appearance:none;
-
     cursor:pointer;
-
-    background-image:
-        linear-gradient(45deg,transparent 50%,#7d8499 50%),
-        linear-gradient(135deg,#7d8499 50%,transparent 50%);
-
-    background-position:
-        calc(100% - 18px) 19px,
-        calc(100% - 13px) 19px;
-
-    background-size:
-        5px 5px,
-        5px 5px;
-
-    background-repeat:no-repeat;
 }
 
+.char{
+    text-align:right;
+    color:#454c5e;
+    font-size:9px;
+    margin-top:5px;
+}
 
-/* FILE */
+/* ================= FILE ================= */
 
 .dropzone{
-
-    position:relative;
-
-    border:1px dashed #343b53;
-
+    border:1px dashed #30364a;
     border-radius:17px;
-
-    padding:30px 20px;
-
+    min-height:145px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
     text-align:center;
-
-    background:
-        rgba(255,255,255,.018);
-
     cursor:pointer;
-
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.018),
+            rgba(255,255,255,.008)
+        );
     transition:.25s;
 }
 
 .dropzone:hover,
-.dropzone.dragging{
-
-    border-color:#6978ff;
-
-    background:
-        rgba(88,101,242,.06);
-
+.dropzone.drag{
+    border-color:#7168ff;
+    background:rgba(113,104,255,.05);
     transform:translateY(-2px);
 }
 
-.upload-icon{
-
-    width:52px;
-    height:52px;
-
-    margin:0 auto 12px;
-
+.upload{
+    width:44px;
+    height:44px;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    border-radius:15px;
-
-    background:
-        rgba(88,101,242,.11);
-
-    font-size:23px;
+    border-radius:13px;
+    background:rgba(118,103,255,.1);
+    font-size:20px;
+    margin-bottom:10px;
 }
 
 .dropzone strong{
-
-    display:block;
-
-    font-size:14px;
-
-    margin-bottom:5px;
+    font-size:12px;
 }
 
 .dropzone span{
-
-    color:#6e768b;
-
-    font-size:12px;
+    margin-top:4px;
+    color:#555d71;
+    font-size:10px;
 }
 
 #attachment{
@@ -719,407 +677,354 @@ select{
 }
 
 .file-name{
-
-    margin-top:12px;
-
-    color:#8996ff;
-
-    font-size:12px;
-
+    margin-top:10px;
+    color:#9d95ff;
+    font-size:10px;
     font-weight:600;
 }
 
-
-/* CHECKBOX */
+/* ================= AGREEMENT ================= */
 
 .agreement{
-
-    display:flex;
-
-    gap:12px;
-
-    align-items:flex-start;
-
+    margin:24px 29px 0;
     padding:15px;
-
-    border-radius:14px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    border:1px solid
-        rgba(255,255,255,.06);
-
-    margin-top:8px;
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+    border:1px solid var(--border);
+    border-radius:13px;
+    background:rgba(255,255,255,.018);
 }
 
 .agreement input{
-
-    width:17px;
-    height:17px;
-
+    width:16px;
+    height:16px;
     margin-top:1px;
-
-    accent-color:
-        var(--accent);
+    accent-color:#7168ff;
 }
 
 .agreement label{
-
     margin:0;
-
-    color:#8f97ab;
-
-    font-size:12px;
-
-    font-weight:500;
-
+    display:block;
+    color:#6d7589;
+    font-size:10px;
     line-height:1.6;
+    font-weight:500;
 }
 
-
-/* ERROR */
+/* ================= ERROR ================= */
 
 .error{
-
     display:none;
-
-    padding:13px 15px;
-
-    margin-top:15px;
-
-    border-radius:13px;
-
-    border:1px solid
-        rgba(255,102,117,.22);
-
-    background:
-        rgba(255,102,117,.07);
-
+    margin:17px 29px 0;
+    padding:13px;
+    border-radius:12px;
+    border:1px solid rgba(255,101,117,.18);
+    background:rgba(255,101,117,.05);
     color:#ff8793;
-
-    font-size:12px;
+    font-size:10px;
 }
 
+/* ================= ACTIONS ================= */
 
-/* SUBMIT */
-
-.submit-area{
-
-    margin-top:25px;
-
-    padding-top:25px;
-
-    border-top:1px solid
-        rgba(255,255,255,.06);
+.actions{
+    display:flex;
+    gap:10px;
+    padding:22px 29px 27px;
 }
 
-.submit{
+.button{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:13px 18px;
+    background:#11141d;
+    color:#9ca3b5;
+    font-family:inherit;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
 
-    position:relative;
-
-    width:100%;
-
-    padding:17px;
-
-    border:0;
-
-    border-radius:15px;
-
+.button:hover{
     color:white;
+    border-color:#343a4e;
+    background:#161a25;
+}
 
+.button.primary{
+    flex:1;
+    border:0;
+    color:white;
     background:
         linear-gradient(
             100deg,
-            #5865f2,
-            #7657ed,
-            #9b5cf6
+            #5e64ff,
+            #7965ff,
+            #9a64ff
         );
-
-    font-family:inherit;
-
-    font-size:14px;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    overflow:hidden;
-
     box-shadow:
-        0 15px 35px
-        rgba(88,101,242,.25);
-
-    transition:.2s;
+        0 12px 30px
+        rgba(103,94,255,.2);
 }
 
-.submit::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-100%;
-
-    width:50%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.2),
-            transparent
-        );
-
-    transform:skewX(-20deg);
-
-    transition:.6s;
-}
-
-.submit:hover::before{
-    left:150%;
-}
-
-.submit:hover{
-
+.button.primary:hover{
     transform:translateY(-2px);
-
     box-shadow:
-        0 20px 45px
-        rgba(88,101,242,.35);
+        0 17px 40px
+        rgba(103,94,255,.3);
 }
 
-.submit:disabled{
-
-    opacity:.6;
-
+.button:disabled{
+    opacity:.55;
     cursor:wait;
-
-    transform:none;
 }
 
-.submit-content{
+/* ================= MODAL ================= */
 
-    position:relative;
-
-    display:flex;
-
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
     align-items:center;
-
     justify-content:center;
-
-    gap:9px;
+    padding:20px;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(10px);
 }
 
-
-/* SAVE BUTTONS */
-
-.actions{
-
+.modal.show{
     display:flex;
-
-    gap:10px;
-
-    margin-top:12px;
 }
 
-.small-button{
+.modal-card{
+    width:min(440px,100%);
+    padding:27px;
+    border:1px solid var(--border2);
+    border-radius:21px;
+    background:#10131d;
+    box-shadow:0 35px 100px rgba(0,0,0,.6);
+    animation:modalIn .25s ease;
+}
 
-    flex:1;
+.modal-icon{
+    width:47px;
+    height:47px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:rgba(118,103,255,.1);
+    font-size:20px;
+}
 
-    padding:11px;
+.modal h2{
+    margin-top:17px;
+    font-family:"Space Grotesk";
+    font-size:20px;
+}
 
-    border:1px solid
-        rgba(255,255,255,.07);
-
-    border-radius:12px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    color:#8e96aa;
-
-    cursor:pointer;
-
-    font-family:inherit;
-
+.modal p{
+    margin-top:8px;
+    color:#747c90;
     font-size:11px;
-
-    transition:.2s;
+    line-height:1.6;
 }
 
-.small-button:hover{
-
-    color:white;
-
-    background:
-        rgba(255,255,255,.05);
+.modal-actions{
+    display:flex;
+    gap:9px;
+    margin-top:22px;
 }
 
+.modal-actions button{
+    flex:1;
+}
 
-/* SUCCESS */
+/* ================= SUCCESS ================= */
 
 .success{
-
     display:none;
-
-    text-align:center;
-
-    padding:70px 25px;
-}
-
-.success-circle{
-
-    width:92px;
-    height:92px;
-
-    margin:auto;
-
-    display:flex;
-
+    min-height:520px;
     align-items:center;
-
     justify-content:center;
-
-    border-radius:50%;
-
-    background:
-        rgba(54,211,153,.1);
-
-    border:1px solid
-        rgba(54,211,153,.3);
-
-    box-shadow:
-        0 0 60px
-        rgba(54,211,153,.12);
-
-    font-size:43px;
-
-    animation:
-        successPop .6s cubic-bezier(.2,.8,.2,1);
+    text-align:center;
+    padding:50px;
 }
 
-@keyframes successPop{
+.success.show{
+    display:flex;
+}
 
-    0%{
-        transform:scale(.4);
-        opacity:0;
-    }
+.success-inner{
+    max-width:500px;
+}
 
-    70%{
-        transform:scale(1.08);
-    }
-
-    100%{
-        transform:scale(1);
-        opacity:1;
-    }
+.success-icon{
+    width:90px;
+    height:90px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:
+        rgba(53,212,154,.08);
+    border:1px solid
+        rgba(53,212,154,.28);
+    color:var(--green);
+    font-size:38px;
+    box-shadow:
+        0 0 70px
+        rgba(53,212,154,.1);
+    animation:successPop .55s cubic-bezier(.2,.8,.2,1);
 }
 
 .success h2{
-
-    margin-top:24px;
-
-    font-size:29px;
+    margin-top:25px;
+    font-family:"Space Grotesk";
+    font-size:28px;
 }
 
 .success p{
-
-    margin:10px auto 0;
-
-    max-width:450px;
-
-    color:#858da2;
-
-    font-size:13px;
-
+    margin-top:10px;
+    color:#747c90;
+    font-size:12px;
     line-height:1.7;
 }
 
-.success-id{
-
+.app-id{
     display:inline-block;
-
-    margin-top:20px;
-
-    padding:9px 13px;
-
-    border-radius:10px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    color:#a4acc0;
-
-    font-size:11px;
-}
-
-
-/* FOOTER */
-
-.footer{
-
-    text-align:center;
-
-    color:#50586c;
-
-    font-size:10px;
-
     margin-top:18px;
+    padding:8px 12px;
+    border-radius:9px;
+    background:#171b26;
+    color:#9e9cff;
+    font-family:monospace;
+    font-size:10px;
 }
 
-
-/* ANIMATIONS */
+/* ================= ANIMATIONS ================= */
 
 @keyframes fadeUp{
-
     from{
         opacity:0;
-        transform:translateY(25px);
+        transform:translateY(20px);
     }
-
     to{
         opacity:1;
         transform:none;
     }
 }
 
-@keyframes fadeDown{
-
+@keyframes slideDown{
     from{
         opacity:0;
-        transform:translateY(-15px);
+        transform:translateY(-12px);
     }
-
     to{
         opacity:1;
         transform:none;
     }
 }
 
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:scale(.95) translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
 
-/* MOBILE */
+@keyframes successPop{
+    0%{
+        opacity:0;
+        transform:scale(.4);
+    }
+    70%{
+        transform:scale(1.08);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
 
-@media(max-width:700px){
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
 
     .page{
-        padding:15px 10px 35px;
+        padding:14px;
+    }
+
+    .workspace{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        top:0;
+        display:flex;
+        overflow:auto;
+        padding:8px;
+    }
+
+    .side-title,
+    .side-progress{
+        display:none;
+    }
+
+    .step{
+        min-width:150px;
+    }
+
+    .step.active::before{
+        left:10px;
+        right:10px;
+        top:auto;
+        bottom:-1px;
+        width:auto;
+        height:2px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        height:55px;
+    }
+
+    .live{
+        display:none;
     }
 
     .hero{
-        padding:35px 23px;
-        border-radius:24px;
+        padding:30px 23px;
+        border-radius:22px;
     }
 
     .hero h1{
-        letter-spacing:-1.5px;
+        font-size:38px;
+        letter-spacing:-2px;
     }
 
-    .panel{
-        padding:20px 16px;
-        border-radius:22px;
+    .hero-bottom{
+        gap:15px;
+        flex-wrap:wrap;
+    }
+
+    .form-top{
+        padding:18px;
+    }
+
+    .form-section{
+        padding:23px 18px;
     }
 
     .grid{
@@ -1127,25 +1032,26 @@ select{
         gap:0;
     }
 
-    .topbar{
-        margin-bottom:12px;
+    .agreement{
+        margin-left:18px;
+        margin-right:18px;
     }
 
-    .status-pill{
-        display:none;
+    .error{
+        margin-left:18px;
+        margin-right:18px;
     }
 
-    .hero-stats{
-        flex-direction:column;
+    .actions{
+        padding-left:18px;
+        padding-right:18px;
     }
 
-    .stat{
-        width:max-content;
+    .actions .button:not(.primary){
+        padding-left:13px;
+        padding-right:13px;
     }
 
-    .success{
-        padding:55px 10px;
-    }
 }
 
 </style>
@@ -1153,39 +1059,44 @@ select{
 
 <body>
 
-
 <div class="background">
-
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-
+    <div class="grid-bg"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
 </div>
 
 
 <div class="page">
 
 
-<!-- TOP -->
+<!-- TOPBAR -->
 
 <div class="topbar">
 
-    <div class="brand">
+    <div class="logo-area">
 
-        <div class="brand-icon">
+        <div class="logo">
             🛡️
         </div>
 
-        <span>
-            STAFF TEAM
-        </span>
+        <div class="logo-text">
+
+            STAFF PORTAL
+
+            <small>
+                Administration recruitment
+            </small>
+
+        </div>
 
     </div>
 
-    <div class="status-pill">
 
-        <span class="status-dot"></span>
+    <div class="live">
 
-        Applications Open
+        <span class="live-dot"></span>
+
+        Applications open
 
     </div>
 
@@ -1198,49 +1109,38 @@ select{
 
 <div class="hero-content">
 
-    <div class="hero-badge">
-        ✦ Staff Recruitment
+    <div class="eyebrow">
+        ✦ STAFF RECRUITMENT
     </div>
 
     <h1>
-
-        Become part of the
-        <span class="gradient-text">
-            team.
-        </span>
-
+        Help build a
+        <span>better community.</span>
     </h1>
 
     <p>
-
-        We're looking for responsible and active
-        people who can help maintain a friendly,
-        organized and enjoyable community.
-
+        We're looking for mature, responsible and
+        active community members to join our staff
+        team. Complete the application below and
+        tell us why you'd be a great addition.
     </p>
 
 
-    <div class="hero-stats">
+    <div class="hero-bottom">
 
-        <div class="stat">
-            📝
-            <span>
-                Application Form
-            </span>
+        <div class="hero-item">
+            <strong>01</strong>
+            Your information
         </div>
 
-        <div class="stat">
-            🔒
-            <span>
-                Staff Review
-            </span>
+        <div class="hero-item">
+            <strong>02</strong>
+            Staff questions
         </div>
 
-        <div class="stat">
-            ⚡
-            <span>
-                Quick Submission
-            </span>
+        <div class="hero-item">
+            <strong>03</strong>
+            Submit for review
         </div>
 
     </div>
@@ -1250,37 +1150,161 @@ select{
 </div>
 
 
-<!-- PANEL -->
+<!-- WORKSPACE -->
 
-<div class="panel">
-
-
-<div id="applicationView">
+<div class="workspace">
 
 
-<!-- PROGRESS -->
+<!-- SIDEBAR -->
 
-<div class="progress-wrapper">
+<aside class="sidebar">
 
-    <div class="progress-top">
+    <div class="side-title">
+        Application
+    </div>
 
-        <span>
-            Application progress
-        </span>
 
-        <span id="progressText">
-            33%
-        </span>
+    <button
+        class="step active"
+        data-target="section1"
+    >
+
+        <div class="step-icon">
+            👤
+        </div>
+
+        <div class="step-text">
+
+            About You
+
+            <small>
+                Basic information
+            </small>
+
+        </div>
+
+    </button>
+
+
+    <button
+        class="step"
+        data-target="section2"
+    >
+
+        <div class="step-icon">
+            🛡️
+        </div>
+
+        <div class="step-text">
+
+            Position
+
+            <small>
+                Role & availability
+            </small>
+
+        </div>
+
+    </button>
+
+
+    <button
+        class="step"
+        data-target="section3"
+    >
+
+        <div class="step-icon">
+            💬
+        </div>
+
+        <div class="step-text">
+
+            Questions
+
+            <small>
+                Tell us about yourself
+            </small>
+
+        </div>
+
+    </button>
+
+
+    <button
+        class="step"
+        data-target="section4"
+    >
+
+        <div class="step-icon">
+            📎
+        </div>
+
+        <div class="step-text">
+
+            Attachment
+
+            <small>
+                Optional
+            </small>
+
+        </div>
+
+    </button>
+
+
+    <div class="side-progress">
+
+        <div class="side-progress-top">
+
+            <span>
+                Completion
+            </span>
+
+            <strong id="percentage">
+                0%
+            </strong>
+
+        </div>
+
+        <div class="side-bar">
+
+            <div
+                class="side-bar-inner"
+                id="progress"
+            ></div>
+
+        </div>
 
     </div>
 
-    <div class="progress">
+</aside>
 
-        <div
-            class="progress-bar"
-            id="progressBar"
-        ></div>
 
+<!-- FORM -->
+
+<main class="form-panel" id="formPanel">
+
+
+<div class="form-top">
+
+    <div>
+
+        <div class="form-title">
+            Staff Application
+        </div>
+
+        <div class="form-subtitle">
+            Your progress is automatically saved
+        </div>
+
+    </div>
+
+
+    <div
+        class="draft-status"
+        id="draftStatus"
+    >
+        Draft not saved
     </div>
 
 </div>
@@ -1291,9 +1315,12 @@ select{
 
 <!-- SECTION 1 -->
 
-<div class="form-section">
+<section
+    class="form-section"
+    id="section1"
+>
 
-<div class="section-head">
+<div class="section-heading">
 
     <div class="section-number">
         01
@@ -1306,7 +1333,8 @@ select{
         </h2>
 
         <p>
-            Tell us who you are.
+            Basic information about your Discord account.
+
         </p>
 
     </div>
@@ -1326,8 +1354,8 @@ select{
 <input
     id="username"
     required
-    placeholder="example"
     autocomplete="off"
+    placeholder="yourusername"
 >
 
 </div>
@@ -1342,8 +1370,8 @@ select{
 <input
     id="discordId"
     required
-    placeholder="123456789012345678"
     inputmode="numeric"
+    placeholder="123456789012345678"
 >
 
 </div>
@@ -1390,14 +1418,17 @@ select{
 
 </div>
 
-</div>
+</section>
 
 
 <!-- SECTION 2 -->
 
-<div class="form-section">
+<section
+    class="form-section"
+    id="section2"
+>
 
-<div class="section-head">
+<div class="section-heading">
 
     <div class="section-number">
         02
@@ -1406,16 +1437,20 @@ select{
     <div>
 
         <h2>
-            Position
+            Position & availability
         </h2>
 
         <p>
-            Choose the role you're applying for.
+            Tell us which staff role interests you.
+
         </p>
 
     </div>
 
 </div>
+
+
+<div class="grid">
 
 
 <div class="field">
@@ -1457,9 +1492,7 @@ select{
 <div class="field">
 
 <label>
-
-    Hours available per week
-
+    Hours per week
 </label>
 
 <input
@@ -1473,14 +1506,20 @@ select{
 
 </div>
 
+
 </div>
+
+</section>
 
 
 <!-- SECTION 3 -->
 
-<div class="form-section">
+<section
+    class="form-section"
+    id="section3"
+>
 
-<div class="section-head">
+<div class="section-heading">
 
     <div class="section-number">
         03
@@ -1489,11 +1528,12 @@ select{
     <div>
 
         <h2>
-            Your application
+            Staff questions
         </h2>
 
         <p>
-            Explain why you would be a good fit.
+            This is where you can show us what you bring.
+
         </p>
 
     </div>
@@ -1504,24 +1544,22 @@ select{
 <div class="field">
 
 <label>
-
     Why do you want to become staff?
-
 </label>
 
 <textarea
     id="reason"
     maxlength="1500"
     required
-    placeholder="Tell us what motivates you..."
+    placeholder="Tell us what motivates you to apply..."
 ></textarea>
 
-<span
-    class="char-count"
-    id="reasonCount"
+<div
+    class="char"
+    id="reasonChar"
 >
     0 / 1500
-</span>
+</div>
 
 </div>
 
@@ -1529,24 +1567,22 @@ select{
 <div class="field">
 
 <label>
-
     Previous staff experience
-
 </label>
 
 <textarea
     id="experience"
     maxlength="1500"
     required
-    placeholder="Tell us about any previous experience..."
+    placeholder="Tell us about previous moderation or administration experience..."
 ></textarea>
 
-<span
-    class="char-count"
-    id="experienceCount"
+<div
+    class="char"
+    id="experienceChar"
 >
     0 / 1500
-</span>
+</div>
 
 </div>
 
@@ -1554,24 +1590,22 @@ select{
 <div class="field">
 
 <label>
-
     How would you handle rule breaking?
-
 </label>
 
 <textarea
     id="rules"
     maxlength="1500"
     required
-    placeholder="Describe how you would handle a difficult situation..."
+    placeholder="Explain how you would respond to a member breaking the rules..."
 ></textarea>
 
-<span
-    class="char-count"
-    id="rulesCount"
+<div
+    class="char"
+    id="rulesChar"
 >
     0 / 1500
-</span>
+</div>
 
 </div>
 
@@ -1579,9 +1613,7 @@ select{
 <div class="field">
 
 <label>
-
     How would you handle an argument?
-
 </label>
 
 <textarea
@@ -1591,12 +1623,12 @@ select{
     placeholder="Explain how you would resolve a disagreement..."
 ></textarea>
 
-<span
-    class="char-count"
-    id="argumentCount"
+<div
+    class="char"
+    id="argumentChar"
 >
     0 / 1500
-</span>
+</div>
 
 </div>
 
@@ -1604,9 +1636,7 @@ select{
 <div class="field">
 
 <label>
-
-    What makes you suitable?
-
+    What makes you suitable for staff?
 </label>
 
 <textarea
@@ -1616,12 +1646,12 @@ select{
     placeholder="Tell us about your strengths..."
 ></textarea>
 
-<span
-    class="char-count"
-    id="suitableCount"
+<div
+    class="char"
+    id="suitableChar"
 >
     0 / 1500
-</span>
+</div>
 
 </div>
 
@@ -1629,35 +1659,36 @@ select{
 <div class="field">
 
 <label>
-
     What would you improve?
-
 </label>
 
 <textarea
     id="improve"
     maxlength="1500"
     required
-    placeholder="Tell us what you think could be improved..."
+    placeholder="What would you like to improve about the community?"
 ></textarea>
 
-<span
-    class="char-count"
-    id="improveCount"
+<div
+    class="char"
+    id="improveChar"
 >
     0 / 1500
-</span>
-
 </div>
 
 </div>
+
+</section>
 
 
 <!-- SECTION 4 -->
 
-<div class="form-section">
+<section
+    class="form-section"
+    id="section4"
+>
 
-<div class="section-head">
+<div class="section-heading">
 
     <div class="section-number">
         04
@@ -1666,11 +1697,12 @@ select{
     <div>
 
         <h2>
-            Attachment
+            Supporting attachment
         </h2>
 
         <p>
-            Optional supporting material.
+            Optional — add a file if it helps your application.
+
         </p>
 
     </div>
@@ -1684,12 +1716,12 @@ select{
     for="attachment"
 >
 
-    <div class="upload-icon">
+    <div class="upload">
         📎
     </div>
 
     <strong>
-        Drop a file here
+        Drag & drop a file here
     </strong>
 
     <span>
@@ -1697,8 +1729,8 @@ select{
     </span>
 
     <input
-        id="attachment"
         type="file"
+        id="attachment"
     >
 
     <div
@@ -1708,7 +1740,7 @@ select{
 
 </label>
 
-</div>
+</section>
 
 
 <!-- AGREEMENT -->
@@ -1716,17 +1748,17 @@ select{
 <div class="agreement">
 
 <input
-    id="agreement"
     type="checkbox"
+    id="agreement"
     required
 >
 
 <label for="agreement">
 
-    I confirm that the information provided
-    in this application is accurate and I
-    understand that submitting an application
-    does not guarantee a staff position.
+    I confirm that the information in this
+    application is accurate and understand that
+    submitting this form does not guarantee a
+    staff position.
 
 </label>
 
@@ -1736,40 +1768,16 @@ select{
 <div
     class="error"
     id="error"
->
-</div>
+></div>
 
 
-<!-- SUBMIT -->
-
-<div class="submit-area">
-
-<button
-    class="submit"
-    id="submitButton"
-    type="submit"
->
-
-<span class="submit-content">
-
-    <span>
-        🚀
-    </span>
-
-    <span>
-        Submit Application
-    </span>
-
-</span>
-
-</button>
-
+<!-- ACTIONS -->
 
 <div class="actions">
 
 <button
     type="button"
-    class="small-button"
+    class="button"
     id="saveButton"
 >
     💾 Save Draft
@@ -1777,83 +1785,129 @@ select{
 
 <button
     type="button"
-    class="small-button"
+    class="button"
     id="clearButton"
 >
-    🗑 Clear
+    Clear
 </button>
 
-</div>
+<button
+    type="submit"
+    class="button primary"
+    id="submitButton"
+>
+    <span id="submitText">
+        Submit Application
+    </span>
+    →
+</button>
 
 </div>
 
 
 </form>
 
-</div>
-
 
 <!-- SUCCESS -->
 
 <div
     class="success"
-    id="successView"
+    id="success"
 >
 
-<div class="success-circle">
-    ✓
+<div class="success-inner">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <h2>
+        Application received
+    </h2>
+
+    <p>
+        Your application has been successfully
+        submitted to the staff team. Keep an eye
+        on Discord for any response from the team.
+    </p>
+
+    <div
+        class="app-id"
+        id="applicationId"
+    ></div>
+
 </div>
 
-<h2>
-    Application submitted
-</h2>
+</div>
 
-<p>
 
-Your application has been sent successfully.
-The staff team can now review your submission.
+</main>
 
-</p>
+</div>
+
 
 <div
-    class="success-id"
-    id="applicationId"
+    class="footer"
+    style="text-align:center;color:#414858;font-size:9px;margin-top:18px;"
 >
+    Staff Recruitment Portal
 </div>
 
-<button
-    class="small-button"
-    style="margin-top:20px"
-    onclick="location.reload()"
+
+</div>
+
+
+<!-- CONFIRMATION MODAL -->
+
+<div
+    class="modal"
+    id="modal"
 >
 
-Submit another application
+<div class="modal-card">
 
-</button>
+    <div class="modal-icon">
+        🚀
+    </div>
+
+    <h2>
+        Ready to submit?
+    </h2>
+
+    <p>
+        Please make sure your answers are complete
+        and accurate before sending your application.
+    </p>
+
+    <div class="modal-actions">
+
+        <button
+            class="button"
+            id="cancelModal"
+        >
+            Go Back
+        </button>
+
+        <button
+            class="button primary"
+            id="confirmModal"
+        >
+            Submit
+        </button>
+
+    </div>
 
 </div>
-
-
-</div>
-
-
-<div class="footer">
-
-    Staff Application System
-
-</div>
-
 
 </div>
 
 
 <script>
 
-
 /*
-==================================================
+====================================================
 DISCORD WEBHOOK
-==================================================
+====================================================
 */
 
 const WEBHOOK_URL =
@@ -1861,284 +1915,43 @@ const WEBHOOK_URL =
 
 
 /*
-==================================================
+====================================================
 ELEMENTS
-==================================================
+====================================================
 */
 
 const form =
-document.getElementById(
-    "applicationForm"
-);
+document.getElementById("applicationForm");
+
+const modal =
+document.getElementById("modal");
 
 const submitButton =
-document.getElementById(
-    "submitButton"
-);
+document.getElementById("submitButton");
 
 const errorBox =
-document.getElementById(
-    "error"
-);
+document.getElementById("error");
 
 const attachment =
-document.getElementById(
-    "attachment"
-);
+document.getElementById("attachment");
 
 const dropzone =
-document.getElementById(
-    "dropzone"
-);
+document.getElementById("dropzone");
 
 const fileName =
-document.getElementById(
-    "fileName"
-);
+document.getElementById("fileName");
+
+const draftStatus =
+document.getElementById("draftStatus");
 
 
 /*
-==================================================
-CHARACTER COUNTERS
-==================================================
+====================================================
+FIELDS
+====================================================
 */
 
-const counters = [
-
-    ["reason","reasonCount"],
-
-    ["experience","experienceCount"],
-
-    ["rules","rulesCount"],
-
-    ["argument","argumentCount"],
-
-    ["suitable","suitableCount"],
-
-    ["improve","improveCount"]
-
-];
-
-
-counters.forEach(
-    ([inputId,countId]) => {
-
-        const input =
-            document.getElementById(
-                inputId
-            );
-
-        const counter =
-            document.getElementById(
-                countId
-            );
-
-
-        input.addEventListener(
-            "input",
-            () => {
-
-                counter.textContent =
-                    input.value.length +
-                    " / 1500";
-
-                updateProgress();
-
-                saveDraft();
-
-            }
-        );
-
-    }
-);
-
-
-/*
-==================================================
-PROGRESS
-==================================================
-*/
-
-function updateProgress(){
-
-    const ids = [
-
-        "username",
-        "discordId",
-        "age",
-        "timezone",
-        "position",
-        "hours",
-        "reason",
-        "experience",
-        "rules",
-        "argument",
-        "suitable",
-        "improve",
-        "agreement"
-
-    ];
-
-    let complete = 0;
-
-    ids.forEach(
-        id => {
-
-            const element =
-                document.getElementById(id);
-
-            if(
-                element.type === "checkbox"
-                ? element.checked
-                : element.value.trim()
-            ){
-                complete++;
-            }
-
-        }
-    );
-
-
-    const percent =
-        Math.round(
-            (complete / ids.length) * 100
-        );
-
-
-    document.getElementById(
-        "progressBar"
-    ).style.width =
-        Math.max(5,percent) + "%";
-
-
-    document.getElementById(
-        "progressText"
-    ).textContent =
-        percent + "%";
-
-}
-
-
-document.querySelectorAll(
-    "input,select,textarea"
-).forEach(
-    element => {
-
-        element.addEventListener(
-            "input",
-            updateProgress
-        );
-
-        element.addEventListener(
-            "change",
-            updateProgress
-        );
-
-    }
-);
-
-
-/*
-==================================================
-FILE UPLOAD UI
-==================================================
-*/
-
-attachment.addEventListener(
-    "change",
-    function(){
-
-        if(this.files.length){
-
-            fileName.textContent =
-                "✓ " +
-                this.files[0].name;
-
-        }else{
-
-            fileName.textContent = "";
-
-        }
-
-    }
-);
-
-
-[
-    "dragenter",
-    "dragover"
-].forEach(
-    eventName => {
-
-        dropzone.addEventListener(
-            eventName,
-            event => {
-
-                event.preventDefault();
-
-                dropzone.classList.add(
-                    "dragging"
-                );
-
-            }
-        );
-
-    }
-);
-
-
-[
-    "dragleave",
-    "drop"
-].forEach(
-    eventName => {
-
-        dropzone.addEventListener(
-            eventName,
-            event => {
-
-                event.preventDefault();
-
-                dropzone.classList.remove(
-                    "dragging"
-                );
-
-            }
-        );
-
-    }
-);
-
-
-dropzone.addEventListener(
-    "drop",
-    event => {
-
-        const files =
-            event.dataTransfer.files;
-
-        if(files.length){
-
-            attachment.files =
-                files;
-
-            fileName.textContent =
-                "✓ " +
-                files[0].name;
-
-        }
-
-    }
-);
-
-
-/*
-==================================================
-DRAFT SAVING
-==================================================
-*/
-
-const draftFields = [
+const fields = [
 
     "username",
     "discordId",
@@ -2156,11 +1969,341 @@ const draftFields = [
 ];
 
 
-function saveDraft(){
+/*
+====================================================
+CHARACTER COUNTERS
+====================================================
+*/
+
+const textAreas = [
+
+    ["reason","reasonChar"],
+    ["experience","experienceChar"],
+    ["rules","rulesChar"],
+    ["argument","argumentChar"],
+    ["suitable","suitableChar"],
+    ["improve","improveChar"]
+
+];
+
+
+textAreas.forEach(
+    pair => {
+
+        const input =
+            document.getElementById(pair[0]);
+
+        const counter =
+            document.getElementById(pair[1]);
+
+
+        function update(){
+
+            counter.textContent =
+                input.value.length +
+                " / 1500";
+
+        }
+
+
+        input.addEventListener(
+            "input",
+            update
+        );
+
+        update();
+
+    }
+);
+
+
+/*
+====================================================
+PROGRESS
+====================================================
+*/
+
+function updateProgress(){
+
+    const total =
+        fields.length + 1;
+
+    let complete = 0;
+
+
+    fields.forEach(
+        id => {
+
+            const el =
+                document.getElementById(id);
+
+            if(el.value.trim()){
+                complete++;
+            }
+
+        }
+    );
+
+
+    if(
+        document.getElementById(
+            "agreement"
+        ).checked
+    ){
+        complete++;
+    }
+
+
+    const percent =
+        Math.round(
+            (complete / total) * 100
+        );
+
+
+    document.getElementById(
+        "percentage"
+    ).textContent =
+        percent + "%";
+
+
+    document.getElementById(
+        "progress"
+    ).style.width =
+        percent + "%";
+
+}
+
+
+document
+.querySelectorAll(
+    "input,textarea,select"
+)
+.forEach(
+    el => {
+
+        el.addEventListener(
+            "input",
+            () => {
+
+                updateProgress();
+                autoSave();
+
+            }
+        );
+
+        el.addEventListener(
+            "change",
+            () => {
+
+                updateProgress();
+                autoSave();
+
+            }
+        );
+
+    }
+);
+
+
+/*
+====================================================
+SIDEBAR NAVIGATION
+====================================================
+*/
+
+document
+.querySelectorAll(".step")
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const target =
+                    document.getElementById(
+                        button.dataset.target
+                    );
+
+                target.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+            }
+        );
+
+    }
+);
+
+
+/*
+====================================================
+ACTIVE SIDEBAR STEP
+====================================================
+*/
+
+const sections = [
+    "section1",
+    "section2",
+    "section3",
+    "section4"
+];
+
+
+const observer =
+new IntersectionObserver(
+    entries => {
+
+        entries.forEach(
+            entry => {
+
+                if(entry.isIntersecting){
+
+                    document
+                    .querySelectorAll(".step")
+                    .forEach(
+                        step => {
+
+                            step.classList.toggle(
+                                "active",
+                                step.dataset.target ===
+                                entry.target.id
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+    },
+    {
+        rootMargin:"-20% 0px -65% 0px"
+    }
+);
+
+
+sections.forEach(
+    id => {
+
+        observer.observe(
+            document.getElementById(id)
+        );
+
+    }
+);
+
+
+/*
+====================================================
+FILE DROP
+====================================================
+*/
+
+attachment.addEventListener(
+    "change",
+    () => {
+
+        if(
+            attachment.files.length
+        ){
+
+            fileName.textContent =
+                "✓ " +
+                attachment.files[0].name;
+
+        }
+
+    }
+);
+
+
+[
+    "dragenter",
+    "dragover"
+].forEach(
+    event => {
+
+        dropzone.addEventListener(
+            event,
+            e => {
+
+                e.preventDefault();
+
+                dropzone.classList.add(
+                    "drag"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+[
+    "dragleave",
+    "drop"
+].forEach(
+    event => {
+
+        dropzone.addEventListener(
+            event,
+            e => {
+
+                e.preventDefault();
+
+                dropzone.classList.remove(
+                    "drag"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+dropzone.addEventListener(
+    "drop",
+    e => {
+
+        const files =
+            e.dataTransfer.files;
+
+        if(files.length){
+
+            try{
+
+                attachment.files =
+                    files;
+
+            }catch(error){}
+
+            fileName.textContent =
+                "✓ " +
+                files[0].name;
+
+        }
+
+    }
+);
+
+
+/*
+====================================================
+DRAFT
+====================================================
+*/
+
+function autoSave(){
 
     const data = {};
 
-    draftFields.forEach(
+    fields.forEach(
         id => {
 
             data[id] =
@@ -2172,52 +2315,72 @@ function saveDraft(){
     );
 
 
+    data.agreement =
+        document.getElementById(
+            "agreement"
+        ).checked;
+
+
     localStorage.setItem(
-        "staffApplicationDraft",
+        "staffApplication",
         JSON.stringify(data)
     );
+
+
+    draftStatus.textContent =
+        "Saving...";
+
+    draftStatus.classList.remove(
+        "saved"
+    );
+
+
+    clearTimeout(
+        window.saveTimer
+    );
+
+
+    window.saveTimer =
+        setTimeout(
+            () => {
+
+                draftStatus.textContent =
+                    "✓ Draft saved";
+
+                draftStatus.classList.add(
+                    "saved"
+                );
+
+            },
+            500
+        );
 
 }
 
 
-document.getElementById(
-    "saveButton"
-).addEventListener(
-    "click",
-    () => {
+function loadDraft(){
 
-        saveDraft();
+    try{
 
-        alert(
-            "Your draft has been saved on this device."
-        );
-
-    }
-);
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "staffApplication"
+                )
+            );
 
 
-/*
-==================================================
-LOAD DRAFT
-==================================================
-*/
-
-try{
-
-    const saved =
-        JSON.parse(
-            localStorage.getItem(
-                "staffApplicationDraft"
-            )
-        );
+        if(!saved){
+            return;
+        }
 
 
-    if(saved){
-
-        draftFields.forEach(
+        fields.forEach(
             id => {
 
-                if(saved[id] !== undefined){
+                if(
+                    saved[id] !== undefined
+                ){
 
                     document.getElementById(
                         id
@@ -2229,23 +2392,67 @@ try{
             }
         );
 
+
+        document.getElementById(
+            "agreement"
+        ).checked =
+            !!saved.agreement;
+
+
         updateProgress();
 
+
+        draftStatus.textContent =
+            "✓ Draft restored";
+
+        draftStatus.classList.add(
+            "saved"
+        );
+
     }
+    catch(error){
 
-}catch(error){
+        console.log(
+            "No saved draft."
+        );
 
-    console.log(
-        "No draft available."
-    );
+    }
 
 }
 
 
+loadDraft();
+
+
 /*
-==================================================
-CLEAR
-==================================================
+====================================================
+SAVE BUTTON
+====================================================
+*/
+
+document.getElementById(
+    "saveButton"
+).addEventListener(
+    "click",
+    () => {
+
+        autoSave();
+
+        draftStatus.textContent =
+            "✓ Draft saved";
+
+        draftStatus.classList.add(
+            "saved"
+        );
+
+    }
+);
+
+
+/*
+====================================================
+CLEAR BUTTON
+====================================================
 */
 
 document.getElementById(
@@ -2255,53 +2462,61 @@ document.getElementById(
     () => {
 
         if(
-            confirm(
-                "Clear the entire application?"
+            !confirm(
+                "Clear your entire application?"
             )
         ){
-
-            form.reset();
-
-            localStorage.removeItem(
-                "staffApplicationDraft"
-            );
-
-            fileName.textContent = "";
-
-            counters.forEach(
-                ([inputId,countId]) => {
-
-                    document.getElementById(
-                        countId
-                    ).textContent =
-                        "0 / 1500";
-
-                }
-            );
-
-            updateProgress();
-
+            return;
         }
+
+
+        form.reset();
+
+        localStorage.removeItem(
+            "staffApplication"
+        );
+
+
+        textAreas.forEach(
+            pair => {
+
+                document.getElementById(
+                    pair[1]
+                ).textContent =
+                    "0 / 1500";
+
+            }
+        );
+
+
+        fileName.textContent = "";
+
+
+        draftStatus.textContent =
+            "Draft cleared";
+
+        draftStatus.classList.remove(
+            "saved"
+        );
+
+
+        updateProgress();
 
     }
 );
 
 
 /*
-==================================================
-SUBMIT
-==================================================
+====================================================
+OPEN CONFIRMATION
+====================================================
 */
 
 form.addEventListener(
     "submit",
-    async event => {
+    event => {
 
         event.preventDefault();
-
-
-        errorBox.style.display =
-            "none";
 
 
         if(
@@ -2315,31 +2530,70 @@ form.addEventListener(
         }
 
 
+        modal.classList.add(
+            "show"
+        );
+
+    }
+);
+
+
+/*
+====================================================
+CLOSE MODAL
+====================================================
+*/
+
+document.getElementById(
+    "cancelModal"
+).addEventListener(
+    "click",
+    () => {
+
+        modal.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/*
+====================================================
+FINAL SUBMISSION
+====================================================
+*/
+
+document.getElementById(
+    "confirmModal"
+).addEventListener(
+    "click",
+    async () => {
+
+
+        modal.classList.remove(
+            "show"
+        );
+
+
         submitButton.disabled =
             true;
 
 
-        submitButton.innerHTML = `
+        document.getElementById(
+            "submitText"
+        ).textContent =
+            "Sending...";
 
-            <span class="submit-content">
 
-                <span>
-                    ⏳
-                </span>
-
-                <span>
-                    Sending...
-                </span>
-
-            </span>
-
-        `;
+        errorBox.style.display =
+            "none";
 
 
         /*
-        ------------------------------------------
-        VALUES
-        ------------------------------------------
+        --------------------------------------------
+        GET VALUES
+        --------------------------------------------
         */
 
         const username =
@@ -2403,55 +2657,52 @@ form.addEventListener(
             ).value.trim();
 
 
-        const selectedFile =
+        const attachmentName =
             attachment.files.length
             ? attachment.files[0].name
             : "None";
 
 
         /*
-        ------------------------------------------
+        --------------------------------------------
         APPLICATION ID
-        ------------------------------------------
+        --------------------------------------------
         */
 
         const applicationId =
-            "APP-" +
+            "STAFF-" +
             Date.now()
-                .toString()
-                .slice(-8);
+            .toString()
+            .slice(-8);
 
 
         /*
-        ------------------------------------------
+        --------------------------------------------
         DISCORD EMBED
-        ------------------------------------------
+        --------------------------------------------
         */
 
         const embed = {
 
             title:
-                "🛡️  NEW STAFF APPLICATION",
+                "🛡️ NEW STAFF APPLICATION",
 
             description:
-                `**Application ID:** \`${applicationId}\`\n\n` +
                 "A new staff application has been submitted.",
 
             color:
-                5793266,
+                7767040,
 
-            fields: [
+            fields:[
 
                 {
                     name:
                         "👤 Discord Username",
 
                     value:
-                        username ||
-                        "Not provided",
+                        username || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2459,11 +2710,9 @@ form.addEventListener(
                         "🆔 Discord ID",
 
                     value:
-                        discordId ||
-                        "Not provided",
+                        discordId || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2471,11 +2720,9 @@ form.addEventListener(
                         "🎂 Age",
 
                     value:
-                        age ||
-                        "Not provided",
+                        age || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2483,11 +2730,9 @@ form.addEventListener(
                         "🛡️ Position",
 
                     value:
-                        position ||
-                        "Not provided",
+                        position || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2495,11 +2740,9 @@ form.addEventListener(
                         "🌎 Timezone",
 
                     value:
-                        timezone ||
-                        "Not provided",
+                        timezone || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2507,11 +2750,9 @@ form.addEventListener(
                         "⏰ Hours / Week",
 
                     value:
-                        hours ||
-                        "Not provided",
+                        hours || "Not provided",
 
                     inline:true
-
                 },
 
                 {
@@ -2519,8 +2760,10 @@ form.addEventListener(
                         "💭 Why do you want to become staff?",
 
                     value:
-                        reason.substring(0,1024)
-
+                        reason.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2528,8 +2771,10 @@ form.addEventListener(
                         "🛠️ Previous Experience",
 
                     value:
-                        experience.substring(0,1024)
-
+                        experience.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2537,8 +2782,10 @@ form.addEventListener(
                         "⚖️ Rule-breaking Scenario",
 
                     value:
-                        rules.substring(0,1024)
-
+                        rules.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2546,8 +2793,10 @@ form.addEventListener(
                         "🤝 Argument Scenario",
 
                     value:
-                        argument.substring(0,1024)
-
+                        argument.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2555,8 +2804,10 @@ form.addEventListener(
                         "⭐ Why are you suitable?",
 
                     value:
-                        suitable.substring(0,1024)
-
+                        suitable.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2564,8 +2815,10 @@ form.addEventListener(
                         "🔧 What would you improve?",
 
                     value:
-                        improve.substring(0,1024)
-
+                        improve.substring(
+                            0,
+                            1024
+                        )
                 },
 
                 {
@@ -2573,17 +2826,14 @@ form.addEventListener(
                         "📎 Attachment",
 
                     value:
-                        selectedFile
-
+                        attachmentName
                 }
 
             ],
 
             footer:{
-
                 text:
-                    "Staff Application System"
-
+                    "Staff Recruitment Portal"
             },
 
             timestamp:
@@ -2593,9 +2843,9 @@ form.addEventListener(
 
 
         /*
-        ------------------------------------------
-        SEND
-        ------------------------------------------
+        --------------------------------------------
+        SEND TO DISCORD
+        --------------------------------------------
         */
 
         try{
@@ -2605,8 +2855,7 @@ form.addEventListener(
                     WEBHOOK_URL,
                     {
 
-                        method:
-                            "POST",
+                        method:"POST",
 
                         headers:{
                             "Content-Type":
@@ -2619,8 +2868,9 @@ form.addEventListener(
                                 username:
                                     "Staff Applications",
 
-                                embeds:
-                                    [embed]
+                                embeds:[
+                                    embed
+                                ]
 
                             })
 
@@ -2631,33 +2881,34 @@ form.addEventListener(
             if(!response.ok){
 
                 throw new Error(
-                    "Webhook returned an error."
+                    "Webhook request failed"
                 );
 
             }
 
 
             /*
-            --------------------------------------
+            ----------------------------------------
             SUCCESS
-            --------------------------------------
+            ----------------------------------------
             */
 
             localStorage.removeItem(
-                "staffApplicationDraft"
+                "staffApplication"
             );
 
 
             document.getElementById(
-                "applicationView"
+                "applicationForm"
             ).style.display =
                 "none";
 
 
             document.getElementById(
-                "successView"
-            ).style.display =
-                "block";
+                "success"
+            ).classList.add(
+                "show"
+            );
 
 
             document.getElementById(
@@ -2666,15 +2917,21 @@ form.addEventListener(
                 applicationId;
 
 
-        }
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
 
+
+        }
         catch(error){
 
             console.error(error);
 
 
             errorBox.textContent =
-                "⚠️ The application could not be sent. Please check your connection and try again.";
+                "⚠️ The application could not be sent. Please check your internet connection and try again.";
+
 
             errorBox.style.display =
                 "block";
@@ -2684,21 +2941,17 @@ form.addEventListener(
                 false;
 
 
-            submitButton.innerHTML = `
+            document.getElementById(
+                "submitText"
+            ).textContent =
+                "Submit Application";
 
-                <span class="submit-content">
 
-                    <span>
-                        🚀
-                    </span>
-
-                    <span>
-                        Submit Application
-                    </span>
-
-                </span>
-
-            `;
+            window.scrollTo({
+                top:
+                    errorBox.offsetTop - 100,
+                behavior:"smooth"
+            });
 
         }
 
@@ -2707,9 +2960,9 @@ form.addEventListener(
 
 
 /*
-==================================================
+====================================================
 INITIALIZE
-==================================================
+====================================================
 */
 
 updateProgress();
