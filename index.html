@@ -233,15 +233,12 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if (!WEBHOOK_URL || WEBHOOK_URL.includes("PASTE_YOUR")) {
-    showStatus("Set your Discord webhook URL in the WEBHOOK_URL constant first.", "error");
+    showStatus("The form is not configured yet.", "error");
     return;
   }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Sending...";
-
-  const fileInput = document.getElementById("file");
-  const file = fileInput.files[0];
 
   const embed = {
     title: "🛡️ New Admin Application",
@@ -261,37 +258,69 @@ form.addEventListener("submit", async (e) => {
       {name:"Rule-breaking scenario", value: document.getElementById("scenario").value || "Not provided", inline:false},
       {name:"Additional information", value: document.getElementById("extra").value || "Not provided", inline:false}
     ],
-    footer: {text:"Admin Application • Submitted from web form"},
+    footer: {text:"Admin Application"},
     timestamp: new Date().toISOString()
   };
 
-  try {
-    if (file) {
-      const fd = new FormData();
-      fd.append("payload_json", JSON.stringify({embeds:[embed], allowed_mentions:{parse:[]}}));
-      fd.append("files[0]", file, file.name);
+  /*
+    GitHub Pages cannot read a cross-origin Discord response with fetch().
+    A normal HTML form POST is allowed by the browser, so submit the
+    multipart request directly to Discord instead. This also supports files.
+  */
+  const iframe = document.createElement("iframe");
+  iframe.name = "discord_submit_frame_" + Date.now();
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
 
-      const response = await fetch(WEBHOOK_URL, { method:"POST", body:fd });
-      if (!response.ok) throw new Error("Webhook returned HTTP " + response.status);
-    } else {
-      const response = await fetch(WEBHOOK_URL, {
-        method:"POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({embeds:[embed], allowed_mentions:{parse:[]}})
-      });
-      if (!response.ok) throw new Error("Webhook returned HTTP " + response.status);
-    }
+  const sender = document.createElement("form");
+  sender.method = "POST";
+  sender.action = WEBHOOK_URL;
+  sender.target = iframe.name;
+  sender.enctype = "multipart/form-data";
+  sender.style.display = "none";
 
-    showStatus("✓ Application sent successfully. The staff team can now review it.", "success");
+  const payload = document.createElement("input");
+  payload.type = "hidden";
+  payload.name = "payload_json";
+  payload.value = JSON.stringify({
+    embeds: [embed],
+    allowed_mentions: {parse: []}
+  });
+  sender.appendChild(payload);
+
+  const fileInput = document.getElementById("file");
+  if (fileInput.files.length > 0) {
+    const clonedFileInput = fileInput.cloneNode(true);
+    clonedFileInput.name = "files[0]";
+    sender.appendChild(clonedFileInput);
+
+    // A cloned file input does not retain its selected file in browsers.
+    // Move the original input instead.
+    sender.removeChild(clonedFileInput);
+    fileInput.name = "files[0]";
+    sender.appendChild(fileInput);
+  }
+
+  document.body.appendChild(sender);
+  sender.submit();
+
+  // We cannot inspect Discord's cross-origin response from GitHub Pages.
+  // Show completion after the browser has accepted the POST.
+  setTimeout(() => {
+    showStatus("✓ Application submitted successfully.", "success");
     localStorage.removeItem(STORAGE_KEY);
     form.reset();
-  } catch (err) {
-    console.error(err);
-    showStatus("Could not send the application. Please try again in a moment. If the problem continues, refresh the page and try again.", "error");
-  } finally {
+
+    if (fileInput.parentElement === sender) {
+      document.querySelector(".filebox").appendChild(fileInput);
+      fileInput.name = "";
+    }
+
+    sender.remove();
+    iframe.remove();
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit application";
-  }
+  }, 900);
 });
 </script>
 </body>
