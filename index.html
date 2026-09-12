@@ -3,523 +3,1149 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Admin Application</title>
+<title>Staff Applications</title>
 
 <style>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #ffffff;
+:root{
+    --bg:#06070d;
+    --panel:rgba(15,17,28,.82);
+    --panel2:rgba(22,25,40,.72);
+    --border:rgba(255,255,255,.09);
+    --text:#f7f8ff;
+    --muted:#9299ad;
+    --accent:#5865f2;
+    --accent2:#8b5cf6;
+    --green:#36d399;
+    --red:#ff6675;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
 
     background:
         radial-gradient(
-            circle at 10% 10%,
-            rgba(88,101,242,.35),
-            transparent 35%
+            circle at 10% 0%,
+            rgba(88,101,242,.23),
+            transparent 28%
         ),
         radial-gradient(
-            circle at 90% 90%,
-            rgba(139,92,246,.28),
+            circle at 90% 20%,
+            rgba(139,92,246,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(50,100,255,.10),
             transparent 35%
         ),
-        #070910;
+        var(--bg);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 25px;
+    overflow-x:hidden;
 }
 
-.container {
-    width: 100%;
-    max-width: 820px;
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:-1;
 }
 
-.card {
-
-    width: 100%;
-
-    background: rgba(15,18,30,.92);
-
-    border: 1px solid rgba(255,255,255,.09);
-
-    border-radius: 28px;
-
-    padding: 40px;
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.55);
-
-    backdrop-filter: blur(20px);
-
-    animation: cardIn .7s ease;
+.orb{
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.15;
+    animation:orbMove 12s infinite alternate ease-in-out;
 }
 
-@keyframes cardIn {
+.orb.one{
+    background:#5865f2;
+    top:-120px;
+    left:-100px;
+}
 
-    from {
-        opacity: 0;
-        transform:
-            translateY(30px)
-            scale(.97);
+.orb.two{
+    background:#a855f7;
+    right:-120px;
+    bottom:-100px;
+    animation-delay:2s;
+}
+
+@keyframes orbMove{
+    from{
+        transform:translate(0,0) scale(1);
     }
-
-    to {
-        opacity: 1;
-        transform:
-            translateY(0)
-            scale(1);
+    to{
+        transform:translate(60px,40px) scale(1.25);
     }
-
 }
 
-.header {
 
-    text-align: center;
+/* PAGE */
 
-    margin-bottom: 35px;
+.page{
+    width:100%;
+    max-width:920px;
+    margin:auto;
+    padding:35px 18px 60px;
 }
 
-.logo {
 
-    width: 90px;
-    height: 90px;
+/* TOP BAR */
 
-    margin: auto;
+.topbar{
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-    border-radius: 27px;
+    margin-bottom:20px;
 
-    font-size: 45px;
+    animation:fadeDown .7s ease;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.brand-icon{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
 
     background:
         linear-gradient(
             135deg,
-            #5865f2,
-            #8b5cf6
+            var(--accent),
+            var(--accent2)
         );
 
     box-shadow:
-        0 18px 45px
-        rgba(88,101,242,.35);
-
-    animation: float 3s ease-in-out infinite;
+        0 8px 25px
+        rgba(88,101,242,.3);
 }
 
-@keyframes float {
-
-    0%,100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-7px);
-    }
-
+.brand span{
+    font-weight:800;
+    font-size:15px;
 }
 
-h1 {
+.status-pill{
 
-    margin-top: 20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
 
-    font-size: 34px;
+    padding:8px 12px;
 
-    letter-spacing: -.5px;
+    border:1px solid var(--border);
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.035);
+
+    color:#aeb5c9;
+
+    font-size:12px;
 }
 
-.subtitle {
+.status-dot{
 
-    margin-top: 10px;
+    width:7px;
+    height:7px;
 
-    color: #9da5bb;
+    border-radius:50%;
 
-    line-height: 1.6;
+    background:var(--green);
 
-    font-size: 15px;
+    box-shadow:
+        0 0 12px
+        var(--green);
 }
 
-.section {
 
-    margin-top: 30px;
+/* HERO */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    padding:50px 35px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,29,48,.94),
+            rgba(10,12,21,.91)
+        );
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.4);
+
+    animation:fadeUp .8s ease;
 }
 
-.section-title {
+.hero::before{
 
-    color: #8795ff;
+    content:"";
 
-    font-size: 13px;
+    position:absolute;
 
-    font-weight: 800;
+    width:300px;
+    height:300px;
 
-    letter-spacing: 1.5px;
+    right:-120px;
+    top:-150px;
 
-    text-transform: uppercase;
+    border-radius:50%;
 
-    margin-bottom: 17px;
+    background:
+        rgba(88,101,242,.18);
+
+    filter:blur(20px);
 }
 
-.grid {
+.hero-content{
+    position:relative;
+    z-index:1;
+}
 
-    display: grid;
+.hero-badge{
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:7px 12px;
+
+    border:1px solid
+        rgba(116,129,255,.25);
+
+    border-radius:999px;
+
+    background:
+        rgba(88,101,242,.08);
+
+    color:#9da8ff;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+.hero h1{
+
+    margin-top:18px;
+
+    font-size:
+        clamp(34px,6vw,58px);
+
+    line-height:1.02;
+
+    letter-spacing:-2.5px;
+}
+
+.gradient-text{
+
+    background:
+        linear-gradient(
+            100deg,
+            #ffffff,
+            #aab5ff 45%,
+            #b88cff
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+}
+
+.hero p{
+
+    max-width:650px;
+
+    margin-top:17px;
+
+    color:var(--muted);
+
+    line-height:1.7;
+
+    font-size:15px;
+}
+
+.hero-stats{
+
+    display:flex;
+    gap:10px;
+
+    margin-top:28px;
+
+    flex-wrap:wrap;
+}
+
+.stat{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 13px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:1px solid
+        rgba(255,255,255,.06);
+
+    color:#aeb5c9;
+
+    font-size:12px;
+}
+
+
+/* MAIN PANEL */
+
+.panel{
+
+    margin-top:18px;
+
+    padding:30px;
+
+    border:1px solid var(--border);
+
+    border-radius:26px;
+
+    background:
+        var(--panel);
+
+    backdrop-filter:blur(25px);
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.3);
+
+    animation:fadeUp .9s ease;
+}
+
+
+/* PROGRESS */
+
+.progress-wrapper{
+
+    padding:4px;
+
+    margin-bottom:30px;
+}
+
+.progress-top{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    color:#8f96aa;
+
+    font-size:12px;
+
+    margin-bottom:10px;
+}
+
+.progress{
+
+    height:5px;
+
+    background:#1c2030;
+
+    border-radius:99px;
+
+    overflow:hidden;
+}
+
+.progress-bar{
+
+    width:33%;
+
+    height:100%;
+
+    border-radius:99px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(88,101,242,.45);
+
+    transition:
+        width .45s cubic-bezier(.4,0,.2,1);
+}
+
+
+/* SECTIONS */
+
+.form-section{
+
+    padding:24px 0;
+
+    border-top:1px solid
+        rgba(255,255,255,.06);
+}
+
+.form-section:first-of-type{
+    border-top:0;
+}
+
+.section-head{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:14px;
+
+    margin-bottom:20px;
+}
+
+.section-number{
+
+    width:35px;
+    height:35px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:
+        rgba(88,101,242,.12);
+
+    border:1px solid
+        rgba(88,101,242,.22);
+
+    color:#9da8ff;
+
+    font-size:13px;
+
+    font-weight:800;
+}
+
+.section-head h2{
+
+    font-size:17px;
+
+    margin-bottom:4px;
+}
+
+.section-head p{
+
+    color:#70788d;
+
+    font-size:12px;
+}
+
+
+/* INPUTS */
+
+.grid{
+
+    display:grid;
 
     grid-template-columns:
         1fr 1fr;
 
-    gap: 16px;
+    gap:16px;
 }
 
-.field {
+.field{
 
-    margin-bottom: 18px;
+    margin-bottom:16px;
 }
 
-label {
+label{
 
-    display: block;
+    display:flex;
 
-    color: #e3e6f0;
+    align-items:center;
+    justify-content:space-between;
 
-    font-size: 14px;
+    margin-bottom:8px;
 
-    font-weight: 700;
+    color:#dfe3ef;
 
-    margin-bottom: 8px;
+    font-size:13px;
+
+    font-weight:700;
+}
+
+.optional{
+
+    color:#687087;
+
+    font-weight:500;
+
+    font-size:11px;
 }
 
 input,
 textarea,
-select {
+select{
 
-    width: 100%;
+    width:100%;
 
-    border: 1px solid #2c3247;
+    padding:14px 15px;
 
-    border-radius: 14px;
+    border-radius:13px;
 
-    background: #0b0e17;
+    border:1px solid
+        #292e41;
 
-    color: white;
+    outline:none;
 
-    outline: none;
+    color:white;
 
-    padding: 14px 15px;
+    background:
+        rgba(7,9,16,.75);
 
-    font-size: 15px;
+    font-family:inherit;
+
+    font-size:14px;
 
     transition:
         border .2s,
         box-shadow .2s,
+        background .2s,
         transform .2s;
 }
 
-input::placeholder,
-textarea::placeholder {
+input:hover,
+textarea:hover,
+select:hover{
 
-    color: #626a80;
+    border-color:#3a4058;
 }
 
 input:focus,
 textarea:focus,
-select:focus {
+select:focus{
 
-    border-color: #6878ff;
+    border-color:#6675ff;
+
+    background:
+        rgba(9,11,20,.95);
 
     box-shadow:
         0 0 0 4px
-        rgba(104,120,255,.12);
+        rgba(88,101,242,.11);
 
-    transform: translateY(-1px);
+    transform:translateY(-1px);
 }
 
-textarea {
+input::placeholder,
+textarea::placeholder{
 
-    min-height: 125px;
-
-    resize: vertical;
+    color:#555d72;
 }
 
-select {
+textarea{
 
-    cursor: pointer;
+    min-height:125px;
+
+    resize:vertical;
+
+    line-height:1.6;
 }
 
-.file-box {
+.char-count{
 
-    display: block;
+    display:block;
 
-    border: 2px dashed #343b52;
+    text-align:right;
 
-    border-radius: 17px;
+    margin-top:5px;
 
-    padding: 27px;
+    color:#555d72;
 
-    text-align: center;
-
-    cursor: pointer;
-
-    color: #9ba3b8;
-
-    transition: .2s;
+    font-size:10px;
 }
 
-.file-box:hover {
 
-    border-color: #6878ff;
+/* SELECT */
+
+select{
+
+    appearance:none;
+
+    cursor:pointer;
+
+    background-image:
+        linear-gradient(45deg,transparent 50%,#7d8499 50%),
+        linear-gradient(135deg,#7d8499 50%,transparent 50%);
+
+    background-position:
+        calc(100% - 18px) 19px,
+        calc(100% - 13px) 19px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat:no-repeat;
+}
+
+
+/* FILE */
+
+.dropzone{
+
+    position:relative;
+
+    border:1px dashed #343b53;
+
+    border-radius:17px;
+
+    padding:30px 20px;
+
+    text-align:center;
 
     background:
-        rgba(104,120,255,.06);
+        rgba(255,255,255,.018);
 
+    cursor:pointer;
+
+    transition:.25s;
 }
 
-.file-box strong {
+.dropzone:hover,
+.dropzone.dragging{
 
-    display: block;
+    border-color:#6978ff;
 
-    color: white;
+    background:
+        rgba(88,101,242,.06);
 
-    font-size: 16px;
-
-    margin-bottom: 7px;
+    transform:translateY(-2px);
 }
 
-.file-box input {
+.upload-icon{
 
-    display: none;
+    width:52px;
+    height:52px;
+
+    margin:0 auto 12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:
+        rgba(88,101,242,.11);
+
+    font-size:23px;
 }
 
-.file-name {
+.dropzone strong{
 
-    margin-top: 12px;
+    display:block;
 
-    color: #8795ff;
+    font-size:14px;
 
-    font-size: 13px;
+    margin-bottom:5px;
 }
 
-.submit {
+.dropzone span{
 
-    width: 100%;
+    color:#6e768b;
 
-    border: none;
+    font-size:12px;
+}
 
-    border-radius: 15px;
+#attachment{
+    display:none;
+}
 
-    padding: 17px;
+.file-name{
 
-    margin-top: 15px;
+    margin-top:12px;
 
-    color: white;
+    color:#8996ff;
 
-    font-size: 16px;
+    font-size:12px;
 
-    font-weight: 800;
+    font-weight:600;
+}
 
-    cursor: pointer;
+
+/* CHECKBOX */
+
+.agreement{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:flex-start;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:1px solid
+        rgba(255,255,255,.06);
+
+    margin-top:8px;
+}
+
+.agreement input{
+
+    width:17px;
+    height:17px;
+
+    margin-top:1px;
+
+    accent-color:
+        var(--accent);
+}
+
+.agreement label{
+
+    margin:0;
+
+    color:#8f97ab;
+
+    font-size:12px;
+
+    font-weight:500;
+
+    line-height:1.6;
+}
+
+
+/* ERROR */
+
+.error{
+
+    display:none;
+
+    padding:13px 15px;
+
+    margin-top:15px;
+
+    border-radius:13px;
+
+    border:1px solid
+        rgba(255,102,117,.22);
+
+    background:
+        rgba(255,102,117,.07);
+
+    color:#ff8793;
+
+    font-size:12px;
+}
+
+
+/* SUBMIT */
+
+.submit-area{
+
+    margin-top:25px;
+
+    padding-top:25px;
+
+    border-top:1px solid
+        rgba(255,255,255,.06);
+}
+
+.submit{
+
+    position:relative;
+
+    width:100%;
+
+    padding:17px;
+
+    border:0;
+
+    border-radius:15px;
+
+    color:white;
 
     background:
         linear-gradient(
-            135deg,
+            100deg,
             #5865f2,
-            #8b5cf6
+            #7657ed,
+            #9b5cf6
         );
 
+    font-family:inherit;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
     box-shadow:
-        0 14px 35px
-        rgba(88,101,242,.28);
+        0 15px 35px
+        rgba(88,101,242,.25);
 
-    transition: .2s;
+    transition:.2s;
 }
 
-.submit:hover {
+.submit::before{
 
-    transform: translateY(-2px);
+    content:"";
 
-    box-shadow:
-        0 18px 42px
-        rgba(88,101,242,.4);
-}
+    position:absolute;
 
-.submit:active {
+    top:0;
+    left:-100%;
 
-    transform: scale(.99);
-}
-
-.submit:disabled {
-
-    opacity: .6;
-
-    cursor: wait;
-
-    transform: none;
-}
-
-.success {
-
-    display: none;
-
-    text-align: center;
-
-    padding: 45px 10px;
-}
-
-.success-icon {
-
-    width: 90px;
-    height: 90px;
-
-    margin: auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
+    width:50%;
+    height:100%;
 
     background:
         linear-gradient(
-            135deg,
-            #20b66b,
-            #168b52
+            90deg,
+            transparent,
+            rgba(255,255,255,.2),
+            transparent
         );
 
-    font-size: 45px;
+    transform:skewX(-20deg);
+
+    transition:.6s;
+}
+
+.submit:hover::before{
+    left:150%;
+}
+
+.submit:hover{
+
+    transform:translateY(-2px);
 
     box-shadow:
-        0 15px 40px
-        rgba(32,182,107,.25);
+        0 20px 45px
+        rgba(88,101,242,.35);
+}
+
+.submit:disabled{
+
+    opacity:.6;
+
+    cursor:wait;
+
+    transform:none;
+}
+
+.submit-content{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:9px;
+}
+
+
+/* SAVE BUTTONS */
+
+.actions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:12px;
+}
+
+.small-button{
+
+    flex:1;
+
+    padding:11px;
+
+    border:1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#8e96aa;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-size:11px;
+
+    transition:.2s;
+}
+
+.small-button:hover{
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+
+/* SUCCESS */
+
+.success{
+
+    display:none;
+
+    text-align:center;
+
+    padding:70px 25px;
+}
+
+.success-circle{
+
+    width:92px;
+    height:92px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(54,211,153,.1);
+
+    border:1px solid
+        rgba(54,211,153,.3);
+
+    box-shadow:
+        0 0 60px
+        rgba(54,211,153,.12);
+
+    font-size:43px;
 
     animation:
-        successPop .5s ease;
+        successPop .6s cubic-bezier(.2,.8,.2,1);
 }
 
-@keyframes successPop {
+@keyframes successPop{
 
-    from {
-        transform: scale(.4);
-        opacity: 0;
+    0%{
+        transform:scale(.4);
+        opacity:0;
     }
 
-    to {
-        transform: scale(1);
-        opacity: 1;
+    70%{
+        transform:scale(1.08);
     }
 
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
-.success h2 {
+.success h2{
 
-    margin-top: 22px;
+    margin-top:24px;
 
-    font-size: 29px;
+    font-size:29px;
 }
 
-.success p {
+.success p{
 
-    color: #9da5bb;
+    margin:10px auto 0;
 
-    line-height: 1.6;
+    max-width:450px;
 
-    margin-top: 10px;
+    color:#858da2;
+
+    font-size:13px;
+
+    line-height:1.7;
 }
 
-.reset {
+.success-id{
 
-    margin-top: 22px;
+    display:inline-block;
 
-    border: 1px solid #343b52;
+    margin-top:20px;
 
-    background: transparent;
+    padding:9px 13px;
 
-    color: white;
-
-    padding: 12px 20px;
-
-    border-radius: 12px;
-
-    cursor: pointer;
-
-    transition: .2s;
-}
-
-.reset:hover {
-
-    background: #181c2a;
-
-}
-
-.error {
-
-    display: none;
-
-    margin-top: 15px;
-
-    padding: 13px;
-
-    border-radius: 12px;
+    border-radius:10px;
 
     background:
-        rgba(239,68,68,.1);
+        rgba(255,255,255,.035);
 
-    border: 1px solid
-        rgba(239,68,68,.25);
+    color:#a4acc0;
 
-    color: #ff8b94;
-
-    text-align: center;
-
-    font-size: 14px;
+    font-size:11px;
 }
 
-.footer {
 
-    text-align: center;
+/* FOOTER */
 
-    margin-top: 25px;
+.footer{
 
-    color: #555d72;
+    text-align:center;
 
-    font-size: 12px;
+    color:#50586c;
+
+    font-size:10px;
+
+    margin-top:18px;
 }
 
-@media(max-width:650px) {
 
-    body {
-        padding: 12px;
+/* ANIMATIONS */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
     }
 
-    .card {
-        padding: 25px 18px;
-        border-radius: 22px;
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-15px);
     }
 
-    .grid {
-        grid-template-columns: 1fr;
-        gap: 0;
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .page{
+        padding:15px 10px 35px;
     }
 
-    h1 {
-        font-size: 28px;
+    .hero{
+        padding:35px 23px;
+        border-radius:24px;
     }
 
-    .logo {
-        width: 78px;
-        height: 78px;
-        font-size: 38px;
+    .hero h1{
+        letter-spacing:-1.5px;
     }
 
+    .panel{
+        padding:20px 16px;
+        border-radius:22px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .topbar{
+        margin-bottom:12px;
+    }
+
+    .status-pill{
+        display:none;
+    }
+
+    .hero-stats{
+        flex-direction:column;
+    }
+
+    .stat{
+        width:max-content;
+    }
+
+    .success{
+        padding:55px 10px;
+    }
 }
 
 </style>
@@ -527,31 +1153,135 @@ select {
 
 <body>
 
-<div class="container">
 
-<div class="card">
+<div class="background">
 
-<!-- APPLICATION -->
+    <div class="orb one"></div>
+    <div class="orb two"></div>
 
-<div id="application">
-
-<div class="header">
-
-<div class="logo">
-🛡️
 </div>
 
-<h1>
-Admin Application
-</h1>
 
-<p class="subtitle">
+<div class="page">
 
-Apply to become part of our administration team.<br>
 
-Please answer all questions honestly and carefully.
+<!-- TOP -->
 
-</p>
+<div class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🛡️
+        </div>
+
+        <span>
+            STAFF TEAM
+        </span>
+
+    </div>
+
+    <div class="status-pill">
+
+        <span class="status-dot"></span>
+
+        Applications Open
+
+    </div>
+
+</div>
+
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-content">
+
+    <div class="hero-badge">
+        ✦ Staff Recruitment
+    </div>
+
+    <h1>
+
+        Become part of the
+        <span class="gradient-text">
+            team.
+        </span>
+
+    </h1>
+
+    <p>
+
+        We're looking for responsible and active
+        people who can help maintain a friendly,
+        organized and enjoyable community.
+
+    </p>
+
+
+    <div class="hero-stats">
+
+        <div class="stat">
+            📝
+            <span>
+                Application Form
+            </span>
+        </div>
+
+        <div class="stat">
+            🔒
+            <span>
+                Staff Review
+            </span>
+        </div>
+
+        <div class="stat">
+            ⚡
+            <span>
+                Quick Submission
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- PANEL -->
+
+<div class="panel">
+
+
+<div id="applicationView">
+
+
+<!-- PROGRESS -->
+
+<div class="progress-wrapper">
+
+    <div class="progress-top">
+
+        <span>
+            Application progress
+        </span>
+
+        <span id="progressText">
+            33%
+        </span>
+
+    </div>
+
+    <div class="progress">
+
+        <div
+            class="progress-bar"
+            id="progressBar"
+        ></div>
+
+    </div>
 
 </div>
 
@@ -559,12 +1289,28 @@ Please answer all questions honestly and carefully.
 <form id="applicationForm">
 
 
-<!-- BASIC INFORMATION -->
+<!-- SECTION 1 -->
 
-<div class="section">
+<div class="form-section">
 
-<div class="section-title">
-Basic Information
+<div class="section-head">
+
+    <div class="section-number">
+        01
+    </div>
+
+    <div>
+
+        <h2>
+            About you
+        </h2>
+
+        <p>
+            Tell us who you are.
+        </p>
+
+    </div>
+
 </div>
 
 
@@ -574,14 +1320,14 @@ Basic Information
 <div class="field">
 
 <label>
-Discord Username
+    Discord Username
 </label>
 
 <input
     id="username"
-    type="text"
-    placeholder="example"
     required
+    placeholder="example"
+    autocomplete="off"
 >
 
 </div>
@@ -590,14 +1336,14 @@ Discord Username
 <div class="field">
 
 <label>
-Discord ID
+    Discord ID
 </label>
 
 <input
     id="discordId"
-    type="text"
-    placeholder="123456789012345678"
     required
+    placeholder="123456789012345678"
+    inputmode="numeric"
 >
 
 </div>
@@ -606,10 +1352,13 @@ Discord ID
 </div>
 
 
+<div class="grid">
+
+
 <div class="field">
 
 <label>
-Age
+    Age
 </label>
 
 <input
@@ -617,242 +1366,367 @@ Age
     type="number"
     min="13"
     max="99"
-    placeholder="Your age"
     required
+    placeholder="Your age"
 >
 
-</div>
-
-</div>
-
-
-<!-- POSITION -->
-
-<div class="section">
-
-<div class="section-title">
-Position
 </div>
 
 
 <div class="field">
 
 <label>
-Which position are you applying for?
+    Timezone
 </label>
 
-<select id="position" required>
+<input
+    id="timezone"
+    required
+    placeholder="GMT+6"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="form-section">
+
+<div class="section-head">
+
+    <div class="section-number">
+        02
+    </div>
+
+    <div>
+
+        <h2>
+            Position
+        </h2>
+
+        <p>
+            Choose the role you're applying for.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+    Position
+</label>
+
+<select
+    id="position"
+    required
+>
 
 <option value="">
-Select a position
+    Select a position
 </option>
 
 <option>
-Administrator
+    Administrator
 </option>
 
 <option>
-Moderator
+    Moderator
 </option>
 
 <option>
-Helper
+    Helper
 </option>
 
 <option>
-Support Staff
+    Support Staff
 </option>
 
 </select>
 
 </div>
 
-</div>
-
-
-<!-- APPLICATION -->
-
-<div class="section">
-
-<div class="section-title">
-Application Questions
-</div>
-
 
 <div class="field">
 
 <label>
-Why do you want to become staff?
-</label>
 
-<textarea
-    id="reason"
-    placeholder="Explain why you want to join the staff team..."
-    required
-></textarea>
+    Hours available per week
 
-</div>
-
-
-<div class="field">
-
-<label>
-Do you have previous staff experience?
-</label>
-
-<textarea
-    id="experience"
-    placeholder="Tell us about your previous moderation or administration experience..."
-    required
-></textarea>
-
-</div>
-
-
-<div class="field">
-
-<label>
-How would you handle a member breaking the rules?
-</label>
-
-<textarea
-    id="rules"
-    placeholder="Explain what you would do..."
-    required
-></textarea>
-
-</div>
-
-
-<div class="field">
-
-<label>
-How would you handle an argument between members?
-</label>
-
-<textarea
-    id="argument"
-    placeholder="Explain how you would resolve the situation..."
-    required
-></textarea>
-
-</div>
-
-
-<div class="field">
-
-<label>
-What makes you suitable for staff?
-</label>
-
-<textarea
-    id="suitable"
-    placeholder="Tell us about your strengths..."
-    required
-></textarea>
-
-</div>
-
-
-<div class="field">
-
-<label>
-What would you improve about the server?
-</label>
-
-<textarea
-    id="improve"
-    placeholder="Tell us what you think could be improved..."
-    required
-></textarea>
-
-</div>
-
-</div>
-
-
-<!-- AVAILABILITY -->
-
-<div class="section">
-
-<div class="section-title">
-Availability
-</div>
-
-
-<div class="grid">
-
-
-<div class="field">
-
-<label>
-Timezone
-</label>
-
-<input
-    id="timezone"
-    placeholder="GMT+6"
-    required
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Hours available per week
 </label>
 
 <input
     id="hours"
     type="number"
     min="0"
-    placeholder="10"
+    max="168"
     required
+    placeholder="10"
 >
 
 </div>
 
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="form-section">
+
+<div class="section-head">
+
+    <div class="section-number">
+        03
+    </div>
+
+    <div>
+
+        <h2>
+            Your application
+        </h2>
+
+        <p>
+            Explain why you would be a good fit.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    Why do you want to become staff?
+
+</label>
+
+<textarea
+    id="reason"
+    maxlength="1500"
+    required
+    placeholder="Tell us what motivates you..."
+></textarea>
+
+<span
+    class="char-count"
+    id="reasonCount"
+>
+    0 / 1500
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    Previous staff experience
+
+</label>
+
+<textarea
+    id="experience"
+    maxlength="1500"
+    required
+    placeholder="Tell us about any previous experience..."
+></textarea>
+
+<span
+    class="char-count"
+    id="experienceCount"
+>
+    0 / 1500
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    How would you handle rule breaking?
+
+</label>
+
+<textarea
+    id="rules"
+    maxlength="1500"
+    required
+    placeholder="Describe how you would handle a difficult situation..."
+></textarea>
+
+<span
+    class="char-count"
+    id="rulesCount"
+>
+    0 / 1500
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    How would you handle an argument?
+
+</label>
+
+<textarea
+    id="argument"
+    maxlength="1500"
+    required
+    placeholder="Explain how you would resolve a disagreement..."
+></textarea>
+
+<span
+    class="char-count"
+    id="argumentCount"
+>
+    0 / 1500
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    What makes you suitable?
+
+</label>
+
+<textarea
+    id="suitable"
+    maxlength="1500"
+    required
+    placeholder="Tell us about your strengths..."
+></textarea>
+
+<span
+    class="char-count"
+    id="suitableCount"
+>
+    0 / 1500
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label>
+
+    What would you improve?
+
+</label>
+
+<textarea
+    id="improve"
+    maxlength="1500"
+    required
+    placeholder="Tell us what you think could be improved..."
+></textarea>
+
+<span
+    class="char-count"
+    id="improveCount"
+>
+    0 / 1500
+</span>
 
 </div>
 
 </div>
 
 
-<!-- FILE -->
+<!-- SECTION 4 -->
 
-<div class="section">
+<div class="form-section">
 
-<div class="section-title">
-Optional Attachment
+<div class="section-head">
+
+    <div class="section-number">
+        04
+    </div>
+
+    <div>
+
+        <h2>
+            Attachment
+        </h2>
+
+        <p>
+            Optional supporting material.
+        </p>
+
+    </div>
+
 </div>
 
 
 <label
-    class="file-box"
+    class="dropzone"
+    id="dropzone"
     for="attachment"
 >
 
-<strong>
-📎 Choose a file
-</strong>
+    <div class="upload-icon">
+        📎
+    </div>
 
-<span>
-Upload an optional image or document
-</span>
+    <strong>
+        Drop a file here
+    </strong>
 
+    <span>
+        or click to browse your device
+    </span>
+
+    <input
+        id="attachment"
+        type="file"
+    >
+
+    <div
+        class="file-name"
+        id="fileName"
+    ></div>
+
+</label>
+
+</div>
+
+
+<!-- AGREEMENT -->
+
+<div class="agreement">
 
 <input
-    id="attachment"
-    type="file"
+    id="agreement"
+    type="checkbox"
+    required
 >
 
+<label for="agreement">
 
-<div
-    class="file-name"
-    id="fileName"
-></div>
+    I confirm that the information provided
+    in this application is accurate and I
+    understand that submitting an application
+    does not guarantee a staff position.
 
 </label>
 
@@ -863,9 +1737,12 @@ Upload an optional image or document
     class="error"
     id="error"
 >
-Something went wrong. Please try again.
 </div>
 
+
+<!-- SUBMIT -->
+
+<div class="submit-area">
 
 <button
     class="submit"
@@ -873,19 +1750,45 @@ Something went wrong. Please try again.
     type="submit"
 >
 
-Submit Application
+<span class="submit-content">
+
+    <span>
+        🚀
+    </span>
+
+    <span>
+        Submit Application
+    </span>
+
+</span>
 
 </button>
 
 
-</form>
+<div class="actions">
 
+<button
+    type="button"
+    class="small-button"
+    id="saveButton"
+>
+    💾 Save Draft
+</button>
 
-<div class="footer">
-
-Staff Application System
+<button
+    type="button"
+    class="small-button"
+    id="clearButton"
+>
+    🗑 Clear
+</button>
 
 </div>
+
+</div>
+
+
+</form>
 
 </div>
 
@@ -894,31 +1797,37 @@ Staff Application System
 
 <div
     class="success"
-    id="success"
+    id="successView"
 >
 
-<div class="success-icon">
-✓
+<div class="success-circle">
+    ✓
 </div>
 
 <h2>
-Application Sent!
+    Application submitted
 </h2>
 
 <p>
 
-Your application has been successfully submitted.<br>
-
-The staff team can now review it.
+Your application has been sent successfully.
+The staff team can now review your submission.
 
 </p>
 
+<div
+    class="success-id"
+    id="applicationId"
+>
+</div>
+
 <button
-    class="reset"
+    class="small-button"
+    style="margin-top:20px"
     onclick="location.reload()"
 >
 
-Submit Another Application
+Submit another application
 
 </button>
 
@@ -927,6 +1836,14 @@ Submit Another Application
 
 </div>
 
+
+<div class="footer">
+
+    Staff Application System
+
+</div>
+
+
 </div>
 
 
@@ -934,9 +1851,9 @@ Submit Another Application
 
 
 /*
-====================================================
+==================================================
 DISCORD WEBHOOK
-====================================================
+==================================================
 */
 
 const WEBHOOK_URL =
@@ -944,44 +1861,200 @@ const WEBHOOK_URL =
 
 
 /*
-====================================================
+==================================================
 ELEMENTS
-====================================================
+==================================================
 */
 
 const form =
-document.getElementById("applicationForm");
+document.getElementById(
+    "applicationForm"
+);
 
 const submitButton =
-document.getElementById("submitButton");
-
-const attachment =
-document.getElementById("attachment");
-
-const fileName =
-document.getElementById("fileName");
+document.getElementById(
+    "submitButton"
+);
 
 const errorBox =
-document.getElementById("error");
+document.getElementById(
+    "error"
+);
+
+const attachment =
+document.getElementById(
+    "attachment"
+);
+
+const dropzone =
+document.getElementById(
+    "dropzone"
+);
+
+const fileName =
+document.getElementById(
+    "fileName"
+);
 
 
 /*
-====================================================
-FILE DISPLAY
-====================================================
+==================================================
+CHARACTER COUNTERS
+==================================================
+*/
+
+const counters = [
+
+    ["reason","reasonCount"],
+
+    ["experience","experienceCount"],
+
+    ["rules","rulesCount"],
+
+    ["argument","argumentCount"],
+
+    ["suitable","suitableCount"],
+
+    ["improve","improveCount"]
+
+];
+
+
+counters.forEach(
+    ([inputId,countId]) => {
+
+        const input =
+            document.getElementById(
+                inputId
+            );
+
+        const counter =
+            document.getElementById(
+                countId
+            );
+
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                counter.textContent =
+                    input.value.length +
+                    " / 1500";
+
+                updateProgress();
+
+                saveDraft();
+
+            }
+        );
+
+    }
+);
+
+
+/*
+==================================================
+PROGRESS
+==================================================
+*/
+
+function updateProgress(){
+
+    const ids = [
+
+        "username",
+        "discordId",
+        "age",
+        "timezone",
+        "position",
+        "hours",
+        "reason",
+        "experience",
+        "rules",
+        "argument",
+        "suitable",
+        "improve",
+        "agreement"
+
+    ];
+
+    let complete = 0;
+
+    ids.forEach(
+        id => {
+
+            const element =
+                document.getElementById(id);
+
+            if(
+                element.type === "checkbox"
+                ? element.checked
+                : element.value.trim()
+            ){
+                complete++;
+            }
+
+        }
+    );
+
+
+    const percent =
+        Math.round(
+            (complete / ids.length) * 100
+        );
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        Math.max(5,percent) + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        percent + "%";
+
+}
+
+
+document.querySelectorAll(
+    "input,select,textarea"
+).forEach(
+    element => {
+
+        element.addEventListener(
+            "input",
+            updateProgress
+        );
+
+        element.addEventListener(
+            "change",
+            updateProgress
+        );
+
+    }
+);
+
+
+/*
+==================================================
+FILE UPLOAD UI
+==================================================
 */
 
 attachment.addEventListener(
     "change",
-    function() {
+    function(){
 
-        if(this.files.length > 0) {
+        if(this.files.length){
 
             fileName.textContent =
-                "Selected: " +
+                "✓ " +
                 this.files[0].name;
 
-        } else {
+        }else{
 
             fileName.textContent = "";
 
@@ -991,106 +2064,378 @@ attachment.addEventListener(
 );
 
 
+[
+    "dragenter",
+    "dragover"
+].forEach(
+    eventName => {
+
+        dropzone.addEventListener(
+            eventName,
+            event => {
+
+                event.preventDefault();
+
+                dropzone.classList.add(
+                    "dragging"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+[
+    "dragleave",
+    "drop"
+].forEach(
+    eventName => {
+
+        dropzone.addEventListener(
+            eventName,
+            event => {
+
+                event.preventDefault();
+
+                dropzone.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+dropzone.addEventListener(
+    "drop",
+    event => {
+
+        const files =
+            event.dataTransfer.files;
+
+        if(files.length){
+
+            attachment.files =
+                files;
+
+            fileName.textContent =
+                "✓ " +
+                files[0].name;
+
+        }
+
+    }
+);
+
+
 /*
-====================================================
+==================================================
+DRAFT SAVING
+==================================================
+*/
+
+const draftFields = [
+
+    "username",
+    "discordId",
+    "age",
+    "timezone",
+    "position",
+    "hours",
+    "reason",
+    "experience",
+    "rules",
+    "argument",
+    "suitable",
+    "improve"
+
+];
+
+
+function saveDraft(){
+
+    const data = {};
+
+    draftFields.forEach(
+        id => {
+
+            data[id] =
+                document.getElementById(
+                    id
+                ).value;
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "staffApplicationDraft",
+        JSON.stringify(data)
+    );
+
+}
+
+
+document.getElementById(
+    "saveButton"
+).addEventListener(
+    "click",
+    () => {
+
+        saveDraft();
+
+        alert(
+            "Your draft has been saved on this device."
+        );
+
+    }
+);
+
+
+/*
+==================================================
+LOAD DRAFT
+==================================================
+*/
+
+try{
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(
+                "staffApplicationDraft"
+            )
+        );
+
+
+    if(saved){
+
+        draftFields.forEach(
+            id => {
+
+                if(saved[id] !== undefined){
+
+                    document.getElementById(
+                        id
+                    ).value =
+                        saved[id];
+
+                }
+
+            }
+        );
+
+        updateProgress();
+
+    }
+
+}catch(error){
+
+    console.log(
+        "No draft available."
+    );
+
+}
+
+
+/*
+==================================================
+CLEAR
+==================================================
+*/
+
+document.getElementById(
+    "clearButton"
+).addEventListener(
+    "click",
+    () => {
+
+        if(
+            confirm(
+                "Clear the entire application?"
+            )
+        ){
+
+            form.reset();
+
+            localStorage.removeItem(
+                "staffApplicationDraft"
+            );
+
+            fileName.textContent = "";
+
+            counters.forEach(
+                ([inputId,countId]) => {
+
+                    document.getElementById(
+                        countId
+                    ).textContent =
+                        "0 / 1500";
+
+                }
+            );
+
+            updateProgress();
+
+        }
+
+    }
+);
+
+
+/*
+==================================================
 SUBMIT
-====================================================
+==================================================
 */
 
 form.addEventListener(
     "submit",
-    async function(event) {
+    async event => {
 
         event.preventDefault();
 
-        errorBox.style.display = "none";
 
-        submitButton.disabled = true;
-
-        submitButton.textContent =
-            "Sending Application...";
+        errorBox.style.display =
+            "none";
 
 
-        /*
-        --------------------------------------------
-        GET VALUES
-        --------------------------------------------
-        */
+        if(
+            !form.checkValidity()
+        ){
 
-        const username =
-            document.getElementById("username")
-            .value.trim();
+            form.reportValidity();
 
-        const discordId =
-            document.getElementById("discordId")
-            .value.trim();
-
-        const age =
-            document.getElementById("age")
-            .value;
-
-        const position =
-            document.getElementById("position")
-            .value;
-
-        const reason =
-            document.getElementById("reason")
-            .value.trim();
-
-        const experience =
-            document.getElementById("experience")
-            .value.trim();
-
-        const rules =
-            document.getElementById("rules")
-            .value.trim();
-
-        const argument =
-            document.getElementById("argument")
-            .value.trim();
-
-        const suitable =
-            document.getElementById("suitable")
-            .value.trim();
-
-        const improve =
-            document.getElementById("improve")
-            .value.trim();
-
-        const timezone =
-            document.getElementById("timezone")
-            .value.trim();
-
-        const hours =
-            document.getElementById("hours")
-            .value;
-
-
-        let selectedFile =
-            "No attachment";
-
-
-        if(attachment.files.length > 0) {
-
-            selectedFile =
-                attachment.files[0].name;
+            return;
 
         }
 
 
+        submitButton.disabled =
+            true;
+
+
+        submitButton.innerHTML = `
+
+            <span class="submit-content">
+
+                <span>
+                    ⏳
+                </span>
+
+                <span>
+                    Sending...
+                </span>
+
+            </span>
+
+        `;
+
+
         /*
-        --------------------------------------------
+        ------------------------------------------
+        VALUES
+        ------------------------------------------
+        */
+
+        const username =
+            document.getElementById(
+                "username"
+            ).value.trim();
+
+        const discordId =
+            document.getElementById(
+                "discordId"
+            ).value.trim();
+
+        const age =
+            document.getElementById(
+                "age"
+            ).value;
+
+        const timezone =
+            document.getElementById(
+                "timezone"
+            ).value.trim();
+
+        const position =
+            document.getElementById(
+                "position"
+            ).value;
+
+        const hours =
+            document.getElementById(
+                "hours"
+            ).value;
+
+        const reason =
+            document.getElementById(
+                "reason"
+            ).value.trim();
+
+        const experience =
+            document.getElementById(
+                "experience"
+            ).value.trim();
+
+        const rules =
+            document.getElementById(
+                "rules"
+            ).value.trim();
+
+        const argument =
+            document.getElementById(
+                "argument"
+            ).value.trim();
+
+        const suitable =
+            document.getElementById(
+                "suitable"
+            ).value.trim();
+
+        const improve =
+            document.getElementById(
+                "improve"
+            ).value.trim();
+
+
+        const selectedFile =
+            attachment.files.length
+            ? attachment.files[0].name
+            : "None";
+
+
+        /*
+        ------------------------------------------
+        APPLICATION ID
+        ------------------------------------------
+        */
+
+        const applicationId =
+            "APP-" +
+            Date.now()
+                .toString()
+                .slice(-8);
+
+
+        /*
+        ------------------------------------------
         DISCORD EMBED
-        --------------------------------------------
+        ------------------------------------------
         */
 
         const embed = {
 
             title:
-                "🛡️ NEW ADMIN APPLICATION",
+                "🛡️  NEW STAFF APPLICATION",
 
             description:
-                "A new administration application has been submitted.",
+                `**Application ID:** \`${applicationId}\`\n\n` +
+                "A new staff application has been submitted.",
 
             color:
                 5793266,
@@ -1102,72 +2447,72 @@ form.addEventListener(
                         "👤 Discord Username",
 
                     value:
-                        username || "Not provided",
+                        username ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
                         "🆔 Discord ID",
 
                     value:
-                        discordId || "Not provided",
+                        discordId ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
                         "🎂 Age",
 
                     value:
-                        age || "Not provided",
+                        age ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
                         "🛡️ Position",
 
                     value:
-                        position || "Not provided",
+                        position ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
                         "🌎 Timezone",
 
                     value:
-                        timezone || "Not provided",
+                        timezone ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
                         "⏰ Hours / Week",
 
                     value:
-                        hours || "Not provided",
+                        hours ||
+                        "Not provided",
 
-                    inline:
-                        true
+                    inline:true
+
                 },
-
 
                 {
                     name:
@@ -1175,8 +2520,8 @@ form.addEventListener(
 
                     value:
                         reason.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
@@ -1184,8 +2529,8 @@ form.addEventListener(
 
                     value:
                         experience.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
@@ -1193,17 +2538,17 @@ form.addEventListener(
 
                     value:
                         rules.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
-                        "🤝 Member Argument Scenario",
+                        "🤝 Argument Scenario",
 
                     value:
                         argument.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
@@ -1211,8 +2556,8 @@ form.addEventListener(
 
                     value:
                         suitable.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
@@ -1220,8 +2565,8 @@ form.addEventListener(
 
                     value:
                         improve.substring(0,1024)
-                },
 
+                },
 
                 {
                     name:
@@ -1229,18 +2574,17 @@ form.addEventListener(
 
                     value:
                         selectedFile
+
                 }
 
             ],
 
-
-            footer: {
+            footer:{
 
                 text:
-                    "Admin Application System"
+                    "Staff Application System"
 
             },
-
 
             timestamp:
                 new Date().toISOString()
@@ -1249,12 +2593,12 @@ form.addEventListener(
 
 
         /*
-        --------------------------------------------
-        SEND TO DISCORD
-        --------------------------------------------
+        ------------------------------------------
+        SEND
+        ------------------------------------------
         */
 
-        try {
+        try{
 
             const response =
                 await fetch(
@@ -1264,18 +2608,16 @@ form.addEventListener(
                         method:
                             "POST",
 
-                        headers: {
-
+                        headers:{
                             "Content-Type":
                                 "application/json"
-
                         },
 
                         body:
                             JSON.stringify({
 
                                 username:
-                                    "Admin Applications",
+                                    "Staff Applications",
 
                                 embeds:
                                     [embed]
@@ -1286,47 +2628,53 @@ form.addEventListener(
                 );
 
 
-            /*
-            ----------------------------------------
-            CHECK RESPONSE
-            ----------------------------------------
-            */
-
-            if(!response.ok) {
+            if(!response.ok){
 
                 throw new Error(
-                    "Discord webhook failed"
+                    "Webhook returned an error."
                 );
 
             }
 
 
             /*
-            ----------------------------------------
-            SUCCESS SCREEN
-            ----------------------------------------
+            --------------------------------------
+            SUCCESS
+            --------------------------------------
             */
 
-            document.getElementById(
-                "application"
-            ).style.display = "none";
+            localStorage.removeItem(
+                "staffApplicationDraft"
+            );
 
 
             document.getElementById(
-                "success"
-            ).style.display = "block";
+                "applicationView"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "successView"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "applicationId"
+            ).textContent =
+                applicationId;
 
 
         }
 
-        catch(error) {
+        catch(error){
 
             console.error(error);
 
 
             errorBox.textContent =
-                "Unable to send the application. Check the webhook and try again.";
-
+                "⚠️ The application could not be sent. Please check your connection and try again.";
 
             errorBox.style.display =
                 "block";
@@ -1336,13 +2684,35 @@ form.addEventListener(
                 false;
 
 
-            submitButton.textContent =
-                "Submit Application";
+            submitButton.innerHTML = `
+
+                <span class="submit-content">
+
+                    <span>
+                        🚀
+                    </span>
+
+                    <span>
+                        Submit Application
+                    </span>
+
+                </span>
+
+            `;
 
         }
 
     }
 );
+
+
+/*
+==================================================
+INITIALIZE
+==================================================
+*/
+
+updateProgress();
 
 </script>
 
